@@ -23,13 +23,13 @@
 ## Установка
 
 ```bash
-git clone https://github.com/Progery222/mastermind ~/.claude/skills/mastermind
+git clone https://github.com/alekseevdenis1995-ai/mastermind ~/.claude/skills/mastermind
 ```
 
 Windows (PowerShell):
 
 ```powershell
-git clone https://github.com/Progery222/mastermind "$HOME\.claude\skills\mastermind"
+git clone https://github.com/alekseevdenis1995-ai/mastermind "$HOME\.claude\skills\mastermind"
 ```
 
 Или скачайте ZIP и распакуйте в `~/.claude/skills/`, чтобы получилось `~/.claude/skills/mastermind/SKILL.md`.
@@ -72,7 +72,7 @@ specs/       ТЗ и исходные материалы
 - **Memory** as linked Markdown — open it in Obsidian for a graph of decisions, tasks and reports.
 - **Context restore hook** — a cleared or compacted chat re-reads its role automatically.
 
-**Install:** `git clone https://github.com/Progery222/mastermind ~/.claude/skills/mastermind` — then run `/mastermind` in an empty project folder. Requires Claude Code and Python 3; `llm-council` skill optional; mode B requires Claude Code Desktop.
+**Install:** `git clone https://github.com/alekseevdenis1995-ai/mastermind ~/.claude/skills/mastermind` — then run `/mastermind` in an empty project folder. Requires Claude Code and Python 3; `llm-council` skill optional; mode B requires Claude Code Desktop.
 
 ## License
 
