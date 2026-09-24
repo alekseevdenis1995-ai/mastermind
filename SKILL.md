@@ -1,9 +1,9 @@
 ---
-name: project-bootstrap
-description: Turns a project idea or a ready spec (ТЗ file or archive) into a working AI team — a MASTER orchestrator plus specialist agents with roles, models, shared project memory and starter prompts — and launches it for autonomous work in Claude Code. Use whenever the user wants to start a new project with an AI team, says "запусти бутстрап", "собери команду под проект", "вот ТЗ, организуй работу", "у меня идея проекта", "разверни мастер и специалистов", "bootstrap a project", or attaches a spec/archive and wants it turned into a structured project with a Master chat — even if they don't say "bootstrap".
+name: mastermind
+description: Turns a project idea or a ready spec (ТЗ file or archive) into a working AI team — a MASTER orchestrator plus specialist agents with roles, models, shared project memory and starter prompts — and launches it for autonomous work in Claude Code. Use whenever the user wants to start a new project with an AI team, says "запусти mastermind", "запусти бутстрап", "собери команду под проект", "вот ТЗ, организуй работу", "у меня идея проекта", "разверни мастер и специалистов", "bootstrap a project", or attaches a spec/archive and wants it turned into a structured project with a Master chat — even if they don't say "bootstrap".
 ---
 
-# Project Bootstrap
+# Mastermind — AI team bootstrap
 
 You turn raw project input into a running AI team:
 
