@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="400" viewBox="0 0 1280 400">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0f1a"/>
+      <stop offset="1" stop-color="#1a1330"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#d4a24c" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#d4a24c" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f3d58a"/>
+      <stop offset="1" stop-color="#c8913a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="400" fill="url(#bg)"/>
+
+  <!-- team graph -->
+  <g transform="translate(960,200)">
+    <circle r="150" fill="url(#glow)"/>
+    <g stroke="#8b7bd8" stroke-opacity="0.55" stroke-width="2">
+      <line x1="0" y1="0" x2="-150" y2="-95"/>
+      <line x1="0" y1="0" x2="150" y2="-95"/>
+      <line x1="0" y1="0" x2="-175" y2="45"/>
+      <line x1="0" y1="0" x2="175" y2="45"/>
+      <line x1="0" y1="0" x2="-70" y2="140"/>
+      <line x1="0" y1="0" x2="70" y2="140"/>
+    </g>
+    <g font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="13" font-weight="600" fill="#e8e4ff" text-anchor="middle">
+      <g><circle cx="-150" cy="-95" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="-150" y="-90">TECH</text></g>
+      <g><circle cx="150" cy="-95" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="150" y="-90">DESIGN</text></g>
+      <g><circle cx="-175" cy="45" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="-175" y="50">DATA</text></g>
+      <g><circle cx="175" cy="45" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="175" y="50">GAME</text></g>
+      <g><circle cx="-70" cy="140" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="-70" y="145">QA</text></g>
+      <g><circle cx="70" cy="140" r="30" fill="#1f1a3d" stroke="#8b7bd8" stroke-width="2"/><text x="70" y="145">OPS</text></g>
+    </g>
+    <circle r="52" fill="#15101f" stroke="url(#gold)" stroke-width="3"/>
+    <text y="7" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif" font-size="17" font-weight="800" fill="url(#gold)" text-anchor="middle" letter-spacing="1.5">MASTER</text>
+  </g>
+
+  <!-- text -->
+  <g font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+    <text x="80" y="165" font-size="84" font-weight="800" fill="url(#gold)" letter-spacing="-1">Mastermind</text>
+    <text x="84" y="215" font-size="26" fill="#e8e4ff">One command. A whole AI team for your project.</text>
+    <text x="84" y="255" font-size="18" fill="#a59fc9">Master orchestrator · specialists · project memory · autonomous loop</text>
+    <g transform="translate(84,295)">
+      <rect width="290" height="44" rx="10" fill="#15101f" stroke="#3a3163"/>
+      <text x="20" y="29" font-family="Cascadia Code, Consolas, Menlo, monospace" font-size="18" fill="#f3d58a">&gt; /mastermind</text>
+    </g>
+    <text x="400" y="323" font-size="16" fill="#7d77a3">for Claude Code</text>
+  </g>
+</svg>

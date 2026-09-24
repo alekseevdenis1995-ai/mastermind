@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400">
+  <rect width="900" height="400" rx="14" fill="#0f111a"/>
+  <rect width="900" height="40" rx="14" fill="#1b1e2b"/>
+  <rect y="26" width="900" height="14" fill="#1b1e2b"/>
+  <circle cx="24" cy="20" r="6" fill="#ff5f57"/><circle cx="44" cy="20" r="6" fill="#febc2e"/><circle cx="64" cy="20" r="6" fill="#28c840"/>
+  <text x="450" y="25" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#8a8fa8" text-anchor="middle">Claude Code — new-project</text>
+  <g font-family="Cascadia Code, Consolas, Menlo, monospace" font-size="15">
+    <text x="30" y="80" fill="#f3d58a">&gt; /mastermind</text>
+    <text x="30" y="125" fill="#e6e6f0">Привет! Соберу под проект команду AI-агентов с Мастером во главе.</text>
+    <text x="30" y="170" fill="#e6e6f0"><tspan fill="#8b7bd8" font-weight="bold">1.</tspan> 📄 У меня есть ТЗ — пришлите файл или архив, я разберу и оформлю.</text>
+    <text x="30" y="205" fill="#e6e6f0"><tspan fill="#8b7bd8" font-weight="bold">2.</tspan> 💡 Есть идея — опишите её, прогоним через консилиум и доведём до ТЗ.</text>
+    <text x="30" y="250" fill="#8a8fa8">Куда разворачивать проект? (по умолчанию — текущая папка)</text>
+    <text x="30" y="305" fill="#f3d58a">&gt; 2. Хочу приложение для записи к барберу с напоминаниями в Telegram</text>
+    <text x="30" y="350" fill="#8a8fa8">● Запускаю консилиум из 5 советников…</text>
+  </g>
+</svg>

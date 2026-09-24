@@ -1,79 +1,137 @@
-# Mastermind 🧠
+<div align="center">
 
-**Одна команда — и у вашего проекта есть AI-команда: Мастер-оркестратор, специалисты с ролями и моделями, общая память и автономный цикл работы в Claude Code.**
+<img src="docs/banner.svg" alt="Mastermind — one command, a whole AI team for your project" width="100%">
 
-[English below](#english)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-skill-d4a24c?style=flat-square)](https://docs.claude.com/en/docs/claude-code)
+[![License: MIT](https://img.shields.io/badge/license-MIT-8b7bd8?style=flat-square)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/alekseevdenis1995-ai/mastermind?style=flat-square&color=d4a24c)](https://github.com/alekseevdenis1995-ai/mastermind/stargazers)
 
-```
-Идея или ТЗ ──► консилиум ──► ТЗ ──► команда + архитектура + память ──► MASTER ──► задачи ──► отчёты ──► релиз
-```
+**English** · [Русский](README.ru.md)
 
-Вы — владелец продукта. Вы говорите только с Мастером. Мастер проводит аудит, ставит задачи специалистам, принимает отчёты, ведёт память и приходит к вам только за решениями.
+</div>
 
-## Что умеет
+---
 
-- **Два входа:** готовое ТЗ (файл или архив) или сырая идея, которую прогоняет консилиум из 5 советников (скилл `llm-council`) и доводит с вами до ТЗ.
-- **Минимальная эффективная команда:** роли, зоны ответственности, модель для каждой роли (Opus / Sonnet / Haiku) с обоснованием.
-- **Два режима работы:**
-  - **A — сабагенты:** всё в одном чате, Мастер сам запускает специалистов под задачу. Дёшево и полностью автоматически.
-  - **B — отдельные чаты (Claude Code Desktop):** вы открываете N пустых чатов, Мастер сам их находит, переименовывает, выставляет модели, раздаёт роли и общается с ними.
-- **Память проекта** в Markdown со ссылками `[[...]]`: откройте папку в Obsidian и получите граф решений, задач и отчётов.
-- **Без ручного «вставь промпт после /clear»:** хук восстанавливает роль чата после очистки или сжатия контекста.
+**Mastermind** is a Claude Code skill that turns a raw idea or a ready spec into a working AI team: one **Master** orchestrator, a set of **specialists** with clear roles and the right model each, a shared **project memory**, and an **autonomous loop** that runs the project while you only make the product decisions.
 
-## Установка
+No more opening ten chats and pasting ten prompts by hand.
 
-```bash
-git clone https://github.com/alekseevdenis1995-ai/mastermind ~/.claude/skills/mastermind
-```
+## ✨ Why
 
-Windows (PowerShell):
+| Without Mastermind | With Mastermind |
+|---|---|
+| You write the spec, design roles, write a prompt for every chat | `/mastermind` → answer a few questions |
+| You copy tasks between chats and paste reports back | The Master sends tasks and collects reports itself |
+| After `/clear` you paste the context again | A hook restores each chat's role automatically |
+| Decisions live in chat history | Decisions, tasks and reports live in linked Markdown memory |
+
+## 🚀 Install
+
+**Windows** (PowerShell):
 
 ```powershell
-git clone https://github.com/alekseevdenis1995-ai/mastermind "$HOME\.claude\skills\mastermind"
+irm https://raw.githubusercontent.com/alekseevdenis1995-ai/mastermind/main/install.ps1 | iex
 ```
 
-Или скачайте ZIP и распакуйте в `~/.claude/skills/`, чтобы получилось `~/.claude/skills/mastermind/SKILL.md`.
+**macOS / Linux:**
 
-**Нужно:** Claude Code, Python 3 (для хука). **Желательно:** скилл `llm-council` (без него используется встроенный консилиум). Режим B — только Claude Code Desktop.
+```bash
+curl -fsSL https://raw.githubusercontent.com/alekseevdenis1995-ai/mastermind/main/install.sh | bash
+```
 
-## Запуск
+<details>
+<summary><b>Other ways</b>: Claude Code plugin, <code>npx skills</code>, git, ZIP</summary>
 
-Откройте Claude Code в пустой папке проекта и напишите:
+**As a Claude Code plugin**, run inside Claude Code:
+
+```
+/plugin marketplace add alekseevdenis1995-ai/mastermind
+/plugin install mastermind@mastermind
+```
+
+**With the skills CLI:**
+
+```bash
+npx skills add alekseevdenis1995-ai/mastermind
+```
+
+**With git:**
+
+```bash
+git clone https://github.com/alekseevdenis1995-ai/mastermind
+cd mastermind && ./install.sh        # Windows: .\install.ps1
+```
+
+**Manually:** download the [ZIP](https://github.com/alekseevdenis1995-ai/mastermind/archive/refs/heads/main.zip), then copy `skills/mastermind` to `~/.claude/skills/mastermind`.
+
+</details>
+
+**Requirements:** [Claude Code](https://docs.claude.com/en/docs/claude-code) and Python 3 (for the context-restore hook). The `llm-council` skill is optional; without it a built-in council is used. Mode B (separate chats) needs **Claude Code Desktop**.
+
+## ▶️ Usage
+
+Open Claude Code in an empty project folder and type:
 
 ```
 /mastermind
 ```
 
-или просто: «у меня идея проекта, собери команду».
+Or just say *"I have a project idea, build me a team"*.
 
-## Что появится в проекте
+<img src="docs/start.svg" alt="Mastermind start menu" width="100%">
+
+When the team is up, the Master audits the project and asks for a go:
+
+<img src="docs/master.svg" alt="Master greeting after the audit" width="100%">
+
+## 🧭 How it works
+
+```mermaid
+flowchart LR
+    A[💡 Idea] --> C{{5-advisor council}}
+    B[📄 Spec / archive] --> D
+    C --> D[Approved spec]
+    D --> E[Bootstrap:<br/>team · models · architecture · memory]
+    E --> F((MASTER))
+    F -->|tasks| G[Specialists]
+    G -->|reports| F
+    F -->|review| H[(Memory)]
+    F -->|decisions only| U[👤 You]
+    F --> R[QA → Release gate]
+```
+
+1. **Intake.** Send a spec, or describe an idea. Ideas go through a council of five advisors, and the result becomes a sketch you edit or confirm.
+2. **Bootstrap.** Mastermind designs the *smallest effective team*: roles, ownership boundaries, and a model per role (Opus for architecture, Sonnet for implementation, Haiku for routine work). It writes the whole project package.
+3. **Mode.** Mastermind recommends a mode and you pick one:
+   - **A: Subagents.** Everything runs in one chat. The Master spawns specialists per task. Cheap and fully automatic.
+   - **B: Real chats** (Claude Code Desktop). You open N empty chats. The Master finds them, renames them (`01 TECH`, `02 DESIGN`…), sets their models, assigns roles and messages them directly.
+4. **Run.** The Master audits the project, tells you what it did and where it will start, then after your *"yes"* loops through task, report, review, memory update and next task. You only hear from it for product decisions, blockers, pushes and deploys, and releases.
+
+## 📁 What you get
 
 ```
-TEAM_MANIFEST.md  PROJECT_PLAN.md  ARCHITECTURE.md  CLAUDE.md
-team/        стартовые промпты Мастера и специалистов
-memory/      контекст, состояние, решения, вопросы, идеи, задачи, отчёты, ADR
-specs/       ТЗ и исходные материалы
-.claude/     хук восстановления контекста
+your-project/
+├── TEAM_MANIFEST.md      roles, ownership, model per role
+├── PROJECT_PLAN.md       phases, milestones, risks
+├── ARCHITECTURE.md
+├── team/                 starter prompts: 00_MASTER_START.md, 01_TECH_START.md …
+├── memory/               context · state · decisions · questions · ideas · tasks · reports · ADR
+├── specs/                approved spec + source material
+└── .claude/              hook that restores a chat's role after /clear or compaction
 ```
 
-## Принцип
+> 💡 **Tip:** open the project folder in [Obsidian](https://obsidian.md). The memory is written with `[[wiki-links]]`, so you get a live graph of decisions, tasks and reports.
 
-> **Bootstrap собирает команду. Мастер ведёт проект. Специалисты выполняют задачи Мастера. Память хранит состояние. Пользователь принимает решения.**
+## 🧠 Principle
 
----
+> **Bootstrap builds the team. The Master runs the project. Specialists execute the Master's tasks. Memory keeps the state. You make the decisions.**
 
-## English
+## 🤝 Contributing
 
-**One command gives your project an AI team: a Master orchestrator, role-based specialists with the right model each, shared project memory, and an autonomous work loop in Claude Code.**
+Issues and PRs are welcome. The skill lives in [`skills/mastermind/`](skills/mastermind): `SKILL.md` is the flow, and `references/` holds the protocol and prompt templates.
 
-- **Input:** a ready spec (file/archive) or a raw idea, pressure-tested by a 5-advisor council and refined with you into a spec.
-- **Team design:** the smallest effective team, clear ownership, Opus/Sonnet/Haiku per role.
-- **Modes:** **A** — subagents inside one chat (cheap, fully automatic); **B** — real chats in Claude Code Desktop that the Master discovers, renames, assigns models and roles to, and messages directly.
-- **Memory** as linked Markdown — open it in Obsidian for a graph of decisions, tasks and reports.
-- **Context restore hook** — a cleared or compacted chat re-reads its role automatically.
-
-**Install:** `git clone https://github.com/alekseevdenis1995-ai/mastermind ~/.claude/skills/mastermind` — then run `/mastermind` in an empty project folder. Requires Claude Code and Python 3; `llm-council` skill optional; mode B requires Claude Code Desktop.
+If Mastermind saved you an evening of pasting prompts, **drop a ⭐**. It helps others find it.
 
 ## License
 
-MIT
+[MIT](LICENSE)

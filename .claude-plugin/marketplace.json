@@ -1,0 +1,16 @@
+{
+  "name": "mastermind",
+  "owner": {
+    "name": "alekseevdenis1995-ai",
+    "url": "https://github.com/alekseevdenis1995-ai"
+  },
+  "plugins": [
+    {
+      "name": "mastermind",
+      "source": "./",
+      "description": "Idea or spec → AI team with a Master orchestrator, specialists, memory and an autonomous loop in Claude Code.",
+      "version": "1.0.0",
+      "license": "MIT"
+    }
+  ]
+}

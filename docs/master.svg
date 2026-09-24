@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470">
+  <rect width="900" height="470" rx="14" fill="#0f111a"/>
+  <rect width="900" height="40" rx="14" fill="#1b1e2b"/>
+  <rect y="26" width="900" height="14" fill="#1b1e2b"/>
+  <circle cx="24" cy="20" r="6" fill="#ff5f57"/><circle cx="44" cy="20" r="6" fill="#febc2e"/><circle cx="64" cy="20" r="6" fill="#28c840"/>
+  <text x="450" y="25" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#8a8fa8" text-anchor="middle">Claude Code — 00 MASTER</text>
+  <g font-family="Cascadia Code, Consolas, Menlo, monospace" font-size="15" fill="#e6e6f0">
+    <text x="30" y="80" fill="#f3d58a" font-weight="bold">MASTER на связи. Проект «BarberBot».</text>
+    <text x="30" y="118"><tspan fill="#8b7bd8" font-weight="bold">Что сделал:</tspan> подключил команду</text>
+    <text x="50" y="146">01 TECH (sonnet) ✅   02 BOT-UX (sonnet) ✅   03 QA (haiku) ✅</text>
+    <text x="30" y="184"><tspan fill="#8b7bd8" font-weight="bold">Аудит:</tspan></text>
+    <text x="50" y="212">• ТЗ не определяет, кто отменяет запись — клиент или мастер</text>
+    <text x="50" y="238">• Нет требований к часовым поясам для напоминаний</text>
+    <text x="30" y="276"><tspan fill="#8b7bd8" font-weight="bold">Нужно ваше решение:</tspan> отмена записи — (a) клиент (b) оба. Рекомендую (b).</text>
+    <text x="30" y="314"><tspan fill="#8b7bd8" font-weight="bold">План старта:</tspan></text>
+    <text x="50" y="342">TECH-001 — каркас бота и БД</text>
+    <text x="470" y="342">BOT-UX-001 — сценарии диалога</text>
+    <text x="50" y="368">TECH-002 — напоминания</text>
+    <text x="470" y="368">QA-001 — тест-план MVP</text>
+    <text x="30" y="414" fill="#f3d58a" font-weight="bold">Стартуем? (да / поправить)</text>
+  </g>
+</svg>
