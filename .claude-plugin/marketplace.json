@@ -9,7 +9,7 @@
       "name": "mastermind",
       "source": "./",
       "description": "Idea or spec → AI team with a Master orchestrator, specialists, memory and an autonomous loop in Claude Code.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "license": "MIT"
     }
   ]

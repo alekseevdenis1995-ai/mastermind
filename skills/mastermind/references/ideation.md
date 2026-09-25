@@ -14,7 +14,7 @@ Invoke the `llm-council` skill (Skill tool, name `llm-council`) with a framed qu
 
 The council runs its advisors and returns a synthesis. Keep its verdict; don't re-run it silently.
 
-**Fallback if `llm-council` isn't installed:** spawn 3–5 subagents in parallel, each with one lens — *Skeptic* (why this fails), *User advocate* (what the user actually needs), *Builder* (the simplest thing that works technically), *Business* (value, monetization, market), optionally *Wildcard* (a bolder angle). Each returns ≤200 words. You synthesize: agreements, clashes, recommendation.
+**Fallback if `llm-council` isn't installed:** spawn 3–5 subagents in parallel (if the harness has no subagents, write each lens yourself in turn and argue each one honestly), each with one lens — *Skeptic* (why this fails), *User advocate* (what the user actually needs), *Builder* (the simplest thing that works technically), *Business* (value, monetization, market), optionally *Wildcard* (a bolder angle). Each returns ≤200 words. You synthesize: agreements, clashes, recommendation.
 
 ## 3. Sketch
 

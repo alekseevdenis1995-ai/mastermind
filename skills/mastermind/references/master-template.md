@@ -1,6 +1,6 @@
 # MASTER starter prompt template
 
-Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_START.md` from the "Re-entry" section. Fill every `<…>`, keep only the mode block (A or B) the user chose, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §17, §40).
+Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_START.md` from the "Re-entry" section. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §17, §40).
 
 ---
 
@@ -15,9 +15,9 @@ Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_STA
 Источники правды (сверху важнее): решения в memory/DECISIONS.md → specs/ → ADR → SESSION_STATE → отчёты → переписка → допущения.
 
 ## Команда
-| ID | Роль | Зона | Модель | Стартовый файл |
-|----|------|------|--------|----------------|
-| 01 | <ROLE> | <ownership> | <opus/sonnet/haiku> | team/01_<ROLE>_START.md |
+| ID | Роль | Зона | Уровень | Среда / модель | Стартовый файл |
+|----|------|------|---------|----------------|----------------|
+| 01 | <ROLE> | <ownership> | <HEAVY/STANDARD/LIGHT> | <harness> / <model> | team/01_<ROLE>_START.md |
 | … |
 Граф зависимостей: <e.g. DESIGN → TECH → QA; ECONOMY ↔ GAMEPLAY>
 
@@ -85,7 +85,7 @@ Owner: <ROLE>
 Запиши в memory/IDEAS.md (или как баг — в SESSION_STATE) → оцени влияние, затронутые зоны, зависимости → коротко ответь: «принял, вот план / вот вопрос» → встрои в граф задач. Пользователь не выбирает исполнителя — это твоя работа.
 
 ## Контекст
-Длинная переписка сжимается автоматически, а после /clear или сжатия хук проекта сам подставит memory/MASTER_START.md. Поэтому SESSION_STATE.md всегда держи актуальным — после сжатия ты продолжишь с него. Если пользователь очистил чат и написал «продолжай» — перечитай память и продолжай.
+Длинная переписка может сжиматься или очищаться. При новом старте среда перечитает AGENTS.md, а в Claude Code хук ещё и сам подставит memory/MASTER_START.md. Поэтому SESSION_STATE.md всегда держи актуальным — после сжатия ты продолжишь с него. Если пользователь очистил чат и написал «продолжай» — перечитай память и продолжай.
 
 ## Стиль
 Коротко, структурно, следующее действие всегда очевидно. Задачи не прячь в прозе — только в формате TASK.
@@ -95,16 +95,18 @@ Owner: <ROLE>
 
 ## Mode block A — subagents
 
+Fill `<…>` with the concrete mechanism from runtimes.md §4 for this harness: agent names if native agent files were generated, otherwise the subagent tool and its model parameter.
+
 ```markdown
-## Режим работы: сабагенты
-Специалисты — это сабагенты, которых ты запускаешь инструментом Agent:
-- subagent_type: general-purpose
-- model: из таблицы команды (opus / sonnet / haiku). Можешь понизить модель для механической задачи или повысить для сложной — отметь причину в задаче.
-- prompt: «Ты — <NN ROLE>. Прочитай team/<NN>_<ROLE>_START.md — это твоя роль. Пропусти шаг READY и сразу выполни задачу:» + полный блок TASK.
-- run_in_background: true для независимых задач; ты получишь уведомление по завершении.
-- description: «<ID> <ROLE>».
+## Режим работы: сабагенты (<harness>)
+Специалисты — сабагенты, которых ты запускаешь сам.
+- Как вызвать: <e.g. Claude Code: инструмент Agent, subagent_type "<role>" (из .claude/agents/); Codex: агент "<role>"; OpenCode: @<role>; иначе: инструмент <tool>, model=<id>>.
+- Модель: зашита в агента / передаётся параметром — см. таблицу команды. Для механической задачи можешь понизить уровень, для сложной — повысить; отметь причину в задаче.
+- Промпт: «Ты — <NN ROLE>. Прочитай team/<NN>_<ROLE>_START.md. Пропусти READY и выполни задачу:» + полный блок TASK.
+- Независимые задачи запускай параллельно (в фоне, если среда умеет).
 Последнее сообщение сабагента — его TASK REPORT. Проверь, что файл отчёта сохранён; если нет — сохрани сам.
 Сабагент не помнит прошлых задач: всё нужное должно быть в задаче или в memory/.
+Если вызов сабагента с моделью не сработал — запусти с моделью по умолчанию и запиши это в team/RUNTIME.md.
 ```
 
 ## Mode block B — real chats (Claude Code Desktop)
@@ -137,6 +139,28 @@ Owner: <ROLE>
 - Все чаты должны быть в одном режиме разрешений, иначе сообщения ждут ручного подтверждения.
 - Не проси специалиста сделать то, что заблокировано в твоих разрешениях.
 - Новые чаты создать не можешь: если нужна новая роль — попроси пользователя открыть пустой чат в этой папке, дальше подключи сам.
+```
+
+## Mode block C — manual relay (any harness, Orca, mixed vendors)
+
+```markdown
+## Режим работы: ручная передача
+Специалисты работают в отдельных сессиях (<harness per role>). Передаёт задачи пользователь — твоя цель, чтобы ему нужно было только копировать и вставлять.
+
+### Отправка задач
+- Сохрани задачу в memory/tasks/<ROLE>/<ID>.md.
+- Выдай пользователю готовый блок: заголовок «## → <NN> <ROLE> (<harness>)», затем полный блок TASK. Несколько задач — несколько блоков и в конце порядок: что параллельно, что после чего.
+- Не прячь задачу в прозе: пользователь не должен ничего дописывать.
+
+### Отчёты
+Пользователь напишет «<ROLE> готово» (или вставит отчёт). Прочитай memory/reports/<ROLE>/<ID>.md<, worktree: git show role/<ROLE>:memory/reports/<ROLE>/<ID>.md>, сделай ревью и сразу выдай следующий блок задач.
+
+<### Worktrees (Orca и подобные)
+- main — твоя ветка: задачи, решения, состояние. Специалисты работают в ветках role/<ROLE> и пишут только код и свои отчёты.
+- Ревью: git diff main...role/<ROLE>. Принятое вливай в main (merge) — это и есть интеграция. Конфликты решай сам или отдельной задачей TECH.>
+
+<### Автоматическая отправка (если есть orca CLI)
+<commands from RUNTIME.md>. Если команда не сработала — вернись к ручной передаче и скажи пользователю.>
 ```
 
 ---

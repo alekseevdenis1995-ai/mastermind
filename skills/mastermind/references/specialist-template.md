@@ -61,3 +61,5 @@ Task ID / Owner / Status (PASS | REVIEW | BLOCKED | FAIL)
 
 - **Mode A (subagent):** "Верни полный TASK REPORT последним сообщением — MASTER получит его автоматически."
 - **Mode B (chat):** "Отправь MASTER-у короткое сообщение через SendMessage: `<TASK-ID> <STATUS> — отчёт в memory/reports/<ROLE>/<TASK-ID>.md` + 1–3 строки сути. Адрес MASTER — поле `from` сообщения, в котором пришла задача. Если задача пришла от пользователя вручную — просто выведи отчёт в чат."
+- **Mode C (manual relay):** "Выведи в чат одну строку для пользователя: `Передайте Мастеру: <ROLE> готово — <TASK-ID> <STATUS>`."
+- **Worktree launchers (Orca etc.), add to the Git section:** "Работай в ветке `role/<ROLE>`. Коммить код и свой отчёт; остальные файлы memory/ не трогай — ими владеет MASTER на main. Задачи читай из присланного блока или `git show main:memory/tasks/<ROLE>/<ID>.md`."

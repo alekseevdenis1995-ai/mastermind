@@ -1,7 +1,7 @@
 {
   "name": "mastermind",
-  "version": "1.0.0",
-  "description": "One command turns an idea or a spec into an AI team for Claude Code: a Master orchestrator, role-based specialists, shared project memory and an autonomous work loop.",
+  "version": "1.1.0",
+  "description": "One command turns an idea or a spec into an AI team for any coding agent (Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Orca…): a Master orchestrator, role-based specialists, shared project memory and an autonomous work loop.",
   "author": {
     "name": "alekseevdenis1995-ai",
     "url": "https://github.com/alekseevdenis1995-ai"
@@ -9,5 +9,5 @@
   "homepage": "https://github.com/alekseevdenis1995-ai/mastermind",
   "repository": "https://github.com/alekseevdenis1995-ai/mastermind",
   "license": "MIT",
-  "keywords": ["claude-code", "skill", "multi-agent", "orchestration", "project-bootstrap", "ai-team"]
+  "keywords": ["claude-code", "skill", "multi-agent", "orchestration", "project-bootstrap", "ai-team", "codex", "cursor", "opencode", "gemini-cli", "orca"]
 }
