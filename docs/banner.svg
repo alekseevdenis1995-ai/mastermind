@@ -47,6 +47,6 @@
       <rect width="290" height="44" rx="10" fill="#15101f" stroke="#3a3163"/>
       <text x="20" y="29" font-family="Cascadia Code, Consolas, Menlo, monospace" font-size="18" fill="#f3d58a">&gt; /mastermind</text>
     </g>
-    <text x="400" y="323" font-size="16" fill="#7d77a3">for Claude Code · Codex · Cursor · OpenCode · Gemini · Orca</text>
+    <text x="86" y="372" font-size="16" fill="#7d77a3">for Claude Code · Codex · Cursor · OpenCode · Gemini · Orca</text>
   </g>
 </svg>

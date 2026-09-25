@@ -8,7 +8,7 @@
     {
       "name": "mastermind",
       "source": "./",
-      "description": "Idea or spec → AI team with a Master orchestrator, specialists, memory and an autonomous loop in Claude Code.",
+      "description": "Idea or spec → AI team with a Master orchestrator, specialists, memory and an autonomous loop — for Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Orca and more.",
       "version": "1.1.0",
       "license": "MIT"
     }
