@@ -1,6 +1,6 @@
 # MASTER starter prompt template
 
-Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_START.md` from the "Re-entry" section. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §2).
+Produce `team/00_MASTER_START.md` from the template below. `memory/MASTER_START.md` ("Re-entry" section) is written by `scripts/scaffold.py`; write it by hand only if the scaffold wasn't run. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §2).
 
 ---
 

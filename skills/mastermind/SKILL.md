@@ -89,7 +89,15 @@ Default: **A** when subagents exist. **B** when on Claude Code Desktop and the t
 
 ## Phase 3 — Build the package
 
-Follow `references/bootstrap-protocol.md` to design the minimum effective team, starting from `references/team-presets.md`. Then write into the project folder:
+Follow `references/bootstrap-protocol.md` to design the minimum effective team, starting from `references/team-presets.md`.
+
+**Scaffold first.** Run:
+```
+python <skill>/scripts/scaffold.py <project> --name "<Project>" --mode <A|B|C> --roles TECH,QA --harness <claude|codex|…> --models TECH=sonnet,QA=haiku --limits 10,2,3
+```
+It creates the boilerplate (folders, seeded memory, sessions.json, MASTER_START re-entry, AGENTS.md + pointer file, RUNTIME skeleton, Claude Code hooks/settings/.gitignore and agent files) without overwriting anything, and prints what is left. Don't rewrite what it made — spend your effort on the files that need thought: TEAM_MANIFEST, PROJECT_PLAN, ARCHITECTURE, MASTER_CONTEXT, the start prompts, the TBD lines in RUNTIME, and native agent files for non-Claude harnesses. If Python isn't available, write everything by hand.
+
+The finished package:
 
 ```
 <project>/
@@ -115,7 +123,7 @@ Rules for this phase:
 
 - **Models come from Phase 2.** MASTER gets the best HEAVY model. Record tier, harness, model and reason per role.
 - **Native agent files (mode A).** If the harness supports agent definitions with a model field, generate one per specialist (runtimes.md §4). The MASTER then calls specialists by name with the right model built in. Otherwise pass the model per call, or note in RUNTIME.md that subagents inherit the MASTER's model.
-- **Context restore.** AGENTS.md is the universal restore point. On Claude Code, also copy `assets/settings.json` → `.claude/settings.json` (merge if one exists) and `assets/hooks/*.py` → `.claude/hooks/`. The PreCompact hook snapshots git state and stale memory; the SessionStart hook re-injects each chat's role plus that snapshot after `/clear` or compaction, so nobody pastes prompts by hand. Add `.claude/compact/` to `.gitignore`.
+- **Context restore.** AGENTS.md is the universal restore point. On Claude Code the scaffold also installs two hooks: PreCompact snapshots git state and stale memory; SessionStart re-injects each chat's role plus that snapshot after `/clear` or compaction, so nobody pastes prompts by hand.
 - **Quality gate.** Fill `## Проверки` in RUNTIME.md with the project's real test/lint/build commands (protocol §7) and `## Лимиты` from Phase 2.
 - **Memory is an Obsidian vault.** Link entries with `[[wiki-links]]` (`[[DECISIONS#D-003]]`, `[[TECH-013]]`) and name task/report files by ID. Opening the folder in Obsidian then gives a graph of decisions, tasks and reports. Mention this once; it's optional.
 - **Starter prompts are role assignments, not tasks** (protocol §2). Specialists end in `READY / WAITING FOR TASK`.
@@ -172,4 +180,5 @@ Don't act as MASTER in the bootstrap session. The bootstrap context is full of r
 - `references/master-template.md` — the MASTER starter prompt: modes A/B/C, autonomous loop, re-entry. Read in Phase 3.
 - `references/specialist-template.md` — the specialist starter prompt. Read in Phase 3.
 - `assets/settings.json`, `assets/hooks/` — the Claude Code PreCompact + context-restore hooks.
+- `scripts/scaffold.py` — writes the package boilerplate. Run at the start of Phase 3.
 - `scripts/check_package.py` — validates the generated package. Run at the end of Phase 3 and in Phase 1c.

@@ -143,6 +143,9 @@ flowchart LR
 - Limits: a report to you every N tasks; after two failed rework rounds it stops and asks you.
 - Memory stays small: SESSION_STATE ≤40 lines, old entries go to `memory/archive/`, specialists read only the files a task needs.
 - A short retro after each milestone proposes team changes.
+- Boilerplate (memory, hooks, AGENTS.md, agent files) is created by a script, not typed out by the model.
+
+> 💡 For long Master sessions in Claude Code you can add [fast-jev-compaction](https://github.com/kargnas/fast-jev-compaction): it drops stale tool output on compaction instead of summarising, so paths and errors survive. Optional; it sends the transcript to the external Jev service.
 
 ## 📁 What you get
 
