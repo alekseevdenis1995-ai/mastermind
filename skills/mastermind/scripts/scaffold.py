@@ -155,9 +155,10 @@ if args.harness == "claude":
         hooks = cur.setdefault("hooks", {})
         changed = False
         for event, entries in ours["hooks"].items():
-            have = json.dumps(hooks.get(event, []))
+            have = " ".join(h.get("command", "") for x in hooks.get(event, []) for h in x.get("hooks", []))
             for e in entries:
-                if e["hooks"][0]["command"] not in have:
+                script = e["hooks"][0]["command"].split("/.claude/hooks/")[1].split('"')[0]
+                if script not in have:
                     hooks.setdefault(event, []).append(e)
                     changed = True
         if changed:
