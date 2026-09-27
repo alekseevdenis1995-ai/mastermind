@@ -35,16 +35,17 @@ if isinstance(start_file, str) and start_file.endswith(".md"):
         f"Перечитай {start_file} (твоя роль) и свои отчёты в memory/reports/.\n"
         "Если задача была в работе — доведи её и отправь отчёт MASTER. Иначе — READY / WAITING FOR TASK."
     )
-elif roles and not str(sessions.get("mode", "A")).startswith("A") and sessions.get("master") != session_id:
-    print(
-        "Контекст этого чата был очищен или сжат. Этот чат не найден в memory/sessions.json.\n"
-        "Если ты специалист (NN <ROLE>) — перечитай свой team/NN_<ROLE>_START.md и свои отчёты в memory/reports/.\n"
-        "Если ты MASTER — прочитай memory/MASTER_START.md."
-    )
 else:
+    print("Контекст этого чата был очищен или сжат.\n")
+    if roles and not str(sessions.get("mode", "A")).startswith("A") and sessions.get("master") != session_id:
+        print(
+            "Сначала узнай имя этого чата: вызови ListAgents и посмотри строку «This session is <имя>» "
+            "(или возьми заголовок чата). Если это имя есть в memory/sessions.json → roles (ключом или значением), "
+            "ты специалист: перечитай свой team/NN_<ROLE>_START.md и свои отчёты в memory/reports/, "
+            "доведи задачу или ответь READY / WAITING FOR TASK. Если имени там нет — ты MASTER:\n"
+        )
     master_start = memory / "MASTER_START.md"
     if master_start.is_file():
-        print("Контекст этого чата был очищен или сжат.\n")
         print(master_start.read_text(encoding="utf-8"))
 
 snapshot = root / ".claude" / "compact" / f"{event.get('session_id', 'unknown')}.md"
