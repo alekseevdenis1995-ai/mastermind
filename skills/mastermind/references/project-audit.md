@@ -44,12 +44,27 @@ Verdicts — pick one honestly; "всё хорошо" is a valid answer:
 1. **Всё в порядке, команда не нужна** — small or healthy project; give 1–3 next steps and stop.
 2. **Навести порядок сначала** — no tests/CI, broken build, secrets, chaos. List the fixes; offer a team with a first milestone "stabilise" if it's bigger than a few hours.
 3. **Развернуть команду** — enough independent work for specialists. Go to Phase 2 with this analysis as input: the codebase counts as KNOWN, the ТЗ is reconstructed from code + README (write `specs/TZ.md` marked "восстановлено из кода", user confirms).
-4. **(B) Поправить команду** — concrete changes: merge/add/remove roles, change models, archive memory, update the plan to the current ТЗ, fix package errors. After "да", apply them to TEAM_MANIFEST, RUNTIME, start files, agent files and memory, record a decision in DECISIONS.md, commit.
-5. **(B) Команда в порядке** — say so, give the MASTER re-entry line to continue.
+4. **(B) Поправить команду** — concrete changes: merge/add/remove roles, change models, archive memory, update the plan to the current ТЗ, fix package errors. After "да", apply them to TEAM_MANIFEST, RUNTIME, start files, agent files and memory, record a decision in DECISIONS.md, commit. If the package is outdated, include the upgrade (§4).
+5. **(B) Команда в порядке** — say so, give the MASTER re-entry line to continue. If the package is outdated, still offer the upgrade (§4).
 
 Ask which option they want; do nothing before that.
 
-## 4. Deploying into an existing repo
+## 4. Upgrading a package built by an older Mastermind
+
+A package is outdated when `team/RUNTIME.md` is missing, has no `## Проверки` / `## Лимиты`, has no `Пакет: mastermind v…` line, or `.claude/hooks/pre_compact.py` is missing. Offer the upgrade as part of verdict 4 or 5. Ask the user to stop the project's MASTER and specialist sessions first — they write the same files.
+
+Show the plan, then after "да":
+1. `python scripts/scaffold.py <project> --name … --mode <from sessions.json or RUNTIME> --roles <from team/NN_*_START.md> --harness …` — adds only what's missing (RUNTIME skeleton, archive/, sessions.json, hooks, settings merge, .gitignore).
+2. Replace `.claude/hooks/restore_context.py` and `pre_compact.py` with the skill's current `assets/hooks/` versions (they belong to the skill, not the project).
+3. `team/RUNTIME.md`: add `## Проверки` with the project's real test/lint/build commands (look in package.json, pyproject, Makefile, CI) and `## Лимиты`; add `Пакет: mastermind v<version>` at the top.
+4. `team/00_MASTER_START.md`: insert the sections from the current `master-template.md` that it lacks — «Проверки перед PASS», «Ревью другой моделью», «Лимиты», «Ретро после milestone», «Экономия контекста», and the Проверки hint in «Старт». Fill them for this project. Don't rewrite the project-specific parts.
+5. Each specialist start file: add the two lines from `specialist-template.md` about reading only the task's files and not writing PASS without checks.
+6. If SESSION_STATE > 40 lines or CHANGELOG > 150 lines — propose trimming into `memory/archive/`, don't do it silently.
+7. `memory/DECISIONS.md`: record `D-NNN Mastermind upgraded to v<version>`; CHANGELOG line; `check_package.py`; commit `memory: mastermind upgrade v<version>`.
+
+Tell the user to restart MASTER afterwards («Прочитай memory/MASTER_START.md и продолжай»), so it re-reads the new rules.
+
+## 5. Deploying into an existing repo
 
 When the user chooses to deploy a team:
 - Never overwrite existing files. If `AGENTS.md` / `CLAUDE.md` / `.claude/settings.json` exist, **append** a Mastermind section or merge hooks — show what you'll change first.

@@ -15,6 +15,8 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
+VERSION = "1.2.0"
+
 ap = argparse.ArgumentParser()
 ap.add_argument("project")
 ap.add_argument("--name", required=True)
@@ -116,6 +118,7 @@ write("memory/IDEAS.md", "# IDEAS\n<!-- Идеи пользователя, ещ�
 model_rows = "\n".join(f"| {i:02d} {r} | {models.get(r, 'TBD')} |" for i, r in enumerate(roles, 1))
 write("team/RUNTIME.md", f"""
 # RUNTIME — {name}
+Пакет: mastermind v{VERSION}
 
 ## Среда и режим
 Среда: {args.harness}. Режим: {args.mode}.
