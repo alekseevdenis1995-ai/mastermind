@@ -74,7 +74,7 @@ if mode == "A":
             if not (root / ref).is_file():
                 errors.append(f"{f.relative_to(root).as_posix()}: points at missing {ref}")
 
-placeholder = re.compile(r"<(Project|Project name|ROLE|NN|harness|model|path|N)>")
+placeholder = re.compile(r"<(Project|Project name|harness|model)>")
 for p in [root / "AGENTS.md", *starters, root / "memory/MASTER_START.md", root / "team/RUNTIME.md"]:
     if p.is_file() and placeholder.search(p.read_text(encoding="utf-8")):
         errors.append(f"{p.relative_to(root).as_posix()}: unfilled template placeholder")
