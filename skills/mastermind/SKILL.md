@@ -1,6 +1,6 @@
 ---
 name: mastermind
-description: Turns a project idea or a ready spec (ТЗ file or archive) into a working AI team — a MASTER orchestrator plus specialist agents with roles, per-role models picked from whatever models are connected, shared project memory and starter prompts — and launches it for autonomous work. Works in Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Copilot, Orca and other agent harnesses. Use whenever the user wants to start a new project with an AI team, says "запусти mastermind", "запусти бутстрап", "собери команду под проект", "вот ТЗ, организуй работу", "у меня идея проекта", "разверни мастер и специалистов", "bootstrap a project", "set up an agent team", or attaches a spec/archive and wants it turned into a structured project run by a Master agent — even if they don't say "bootstrap".
+description: Builds and runs an AI team (MASTER orchestrator + specialist agents, per-role models, shared memory) from an idea, a spec/archive, or an existing project it audits first. Any agent harness. Use for "запусти mastermind", "собери команду под проект", "вот ТЗ, организуй работу", "проанализируй проект, что дальше", "bootstrap a project", "set up an agent team".
 ---
 
 # Mastermind — AI team bootstrap
@@ -9,6 +9,7 @@ You turn raw project input into a running AI team:
 
 ```
 IDEA or ТЗ ──► intake / council ──► approved ТЗ ──► runtime + models ──► BOOTSTRAP package ──► MASTER launches team ──► autonomous loop
+EXISTING PROJECT ──► audit ──► verdict: all good / fix first / deploy team / adjust team
 ```
 
 The user is the **Product Owner**. After launch they talk only to the MASTER. The MASTER dispatches work, reviews reports, keeps memory, and escalates only real decisions.
@@ -26,22 +27,29 @@ Before greeting, quietly work out where you are (`references/runtimes.md` §1–
 - whether you can spawn subagents, and whether they take a model;
 - whether you can message other live sessions.
 
+Also glance at the current folder (one `ls` + `git log --oneline -3`): is it empty, a code project, or a Mastermind package (`TEAM_MANIFEST.md`, `team/`, `memory/`)?
+
 Don't narrate this.
 
-Then start with the menu (adapt wording, keep both options):
+Then start with the menu (adapt wording). If the folder has a project in it, put option 3 first and recommend it:
 
 ```
 Привет! Соберу под проект команду AI-агентов с Мастером во главе.
 
 1. 📄 У меня есть ТЗ — пришлите файл или архив (или путь к нему), я разберу и оформлю.
 2. 💡 Есть идея — опишите её своими словами, прогоним через консилиум и вместе доведём до ТЗ.
+3. 🔍 Проект уже идёт — проанализирую его и скажу, что лучше сделать дальше (или что всё хорошо).
 
 Куда разворачивать проект? (по умолчанию — текущая папка: <cwd>)
 ```
 
-If the user already gave input with the invocation (an attached file, a pasted idea), skip the menu and go to the matching branch.
+If the user already gave input with the invocation (an attached file, a pasted idea, "проанализируй проект"), skip the menu and go to the matching branch.
 
-The target folder matters: memory, agent files and instruction files live there, and every agent session must be opened in it. If the current folder is clearly unrelated (another repo with its own code), suggest a new sibling folder.
+The target folder matters: memory, agent files and instruction files live there, and every agent session must be opened in it. For options 1–2 in a folder that holds an unrelated project, suggest a new sibling folder.
+
+## Phase 1c — Existing project
+
+Read `references/project-audit.md` and follow it: audit read-only, give a short report and one honest verdict (all good / fix first / deploy a team / adjust the existing team), then wait for the user's choice. "Deploy a team" continues with Phase 2; "adjust the team" applies the changes and ends.
 
 ## Phase 1a — Ready ТЗ
 
@@ -77,9 +85,11 @@ The council advises; the user decides. Never skip their confirmation of the sket
 
 Default: **A** when subagents exist. **B** when on Claude Code Desktop and the team has ≥5 long-running roles, or the user wants to watch each specialist. **C** when neither is available, or the user runs Orca or another launcher and wants a different CLI per role.
 
+**Limits.** In the same message show the default limits (protocol §8: 10 tasks per milestone before a report, 2 rework rounds before escalation, 3 parallel tasks) and let the user change them.
+
 ## Phase 3 — Build the package
 
-Follow `references/bootstrap-protocol.md` (sections 6–39) to analyse the project and design the minimum effective team. Then write into the project folder:
+Follow `references/bootstrap-protocol.md` to design the minimum effective team, starting from `references/team-presets.md`. Then write into the project folder:
 
 ```
 <project>/
@@ -89,14 +99,14 @@ Follow `references/bootstrap-protocol.md` (sections 6–39) to analyse the proje
 ├── PROJECT_PLAN.md         phases, milestones, risks — not a task list
 ├── ARCHITECTURE.md
 ├── team/
-│   ├── RUNTIME.md          how THIS project dispatches work: harness, mode, exact tool/agent names, models
+│   ├── RUNTIME.md          how THIS project dispatches work: harness, mode, tool/agent names, models, Проверки, Лимиты
 │   ├── 00_MASTER_START.md  from references/master-template.md
 │   └── NN_<ROLE>_START.md  from references/specialist-template.md, one per role
 ├── memory/
 │   ├── MASTER_START.md     short re-entry prompt
 │   ├── MASTER_CONTEXT.md  SESSION_STATE.md  DECISIONS.md  OPEN_QUESTIONS.md  CHANGELOG.md  IDEAS.md
 │   ├── sessions.json       {"mode":"A|B|C","roles":{}}; MASTER fills session ids in mode B
-│   └── tasks/<ROLE>/  reports/<ROLE>/  adr/
+│   └── tasks/<ROLE>/  reports/<ROLE>/  adr/  archive/
 ├── specs/                  approved ТЗ + source material
 └── <native agent files>    mode A: per runtimes.md §4, e.g. .claude/agents/, .codex/agents/, .opencode/agents/
 ```
@@ -105,11 +115,13 @@ Rules for this phase:
 
 - **Models come from Phase 2.** MASTER gets the best HEAVY model. Record tier, harness, model and reason per role.
 - **Native agent files (mode A).** If the harness supports agent definitions with a model field, generate one per specialist (runtimes.md §4). The MASTER then calls specialists by name with the right model built in. Otherwise pass the model per call, or note in RUNTIME.md that subagents inherit the MASTER's model.
-- **Context restore.** AGENTS.md is the universal restore point. On Claude Code, also copy `assets/settings.json` → `.claude/settings.json` and `assets/hooks/restore_context.py` → `.claude/hooks/`. Together they re-inject each chat's role after `/clear` or compaction, so nobody pastes prompts by hand.
+- **Context restore.** AGENTS.md is the universal restore point. On Claude Code, also copy `assets/settings.json` → `.claude/settings.json` (merge if one exists) and `assets/hooks/*.py` → `.claude/hooks/`. The PreCompact hook snapshots git state and stale memory; the SessionStart hook re-injects each chat's role plus that snapshot after `/clear` or compaction, so nobody pastes prompts by hand. Add `.claude/compact/` to `.gitignore`.
+- **Quality gate.** Fill `## Проверки` in RUNTIME.md with the project's real test/lint/build commands (protocol §7) and `## Лимиты` from Phase 2.
 - **Memory is an Obsidian vault.** Link entries with `[[wiki-links]]` (`[[DECISIONS#D-003]]`, `[[TECH-013]]`) and name task/report files by ID. Opening the folder in Obsidian then gives a graph of decisions, tasks and reports. Mention this once; it's optional.
-- **Starter prompts are role assignments, not tasks** (protocol §5, §16). Specialists end in `READY / WAITING FOR TASK`.
-- **Bootstrap does not start the work** (protocol §4). The first tasks come from the MASTER after its audit.
+- **Starter prompts are role assignments, not tasks** (protocol §2). Specialists end in `READY / WAITING FOR TASK`.
+- **Bootstrap does not start the work** (protocol §1). The first tasks come from the MASTER after its audit.
 - **Orca / worktree launchers.** Apply the branch-per-role memory rules from runtimes.md §6 and write them into RUNTIME.md and every start prompt.
+- **Validate.** Run `python scripts/check_package.py <project>` (path relative to this skill). Fix every ERROR; mention WARNs only if they matter.
 - **Git.** If there is no repo, run `git init`, then commit the package (never stage secrets).
 
 ## Phase 4 — Hand-off
@@ -153,8 +165,11 @@ Don't act as MASTER in the bootstrap session. The bootstrap context is full of r
 ## Reference files
 
 - `references/runtimes.md` — harness detection, capabilities, model discovery and tiers, native agent file formats, instruction files, Orca/worktrees. Read in Phases 0, 2 and 3.
-- `references/bootstrap-protocol.md` — the full team-design protocol (v3.1). Read in Phase 3.
+- `references/bootstrap-protocol.md` — the team-design protocol (v4). Read in Phase 3.
+- `references/team-presets.md` — starting teams by project type. Read in Phase 3 and 1c.
+- `references/project-audit.md` — audit of an existing project or team. Read in Phase 1c.
 - `references/ideation.md` — idea → ТЗ with the council. Read in Phase 1b.
 - `references/master-template.md` — the MASTER starter prompt: modes A/B/C, autonomous loop, re-entry. Read in Phase 3.
 - `references/specialist-template.md` — the specialist starter prompt. Read in Phase 3.
-- `assets/settings.json`, `assets/hooks/restore_context.py` — the Claude Code context-restore hook.
+- `assets/settings.json`, `assets/hooks/` — the Claude Code PreCompact + context-restore hooks.
+- `scripts/check_package.py` — validates the generated package. Run at the end of Phase 3 and in Phase 1c.

@@ -1,6 +1,6 @@
 # MASTER starter prompt template
 
-Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_START.md` from the "Re-entry" section. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §17, §40).
+Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_START.md` from the "Re-entry" section. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §2).
 
 ---
 
@@ -31,9 +31,9 @@ Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_STA
 <MODE BLOCK — вставить A или B, см. ниже>
 
 ## Старт
-1. Прочитай specs/, ARCHITECTURE.md, PROJECT_PLAN.md, TEAM_MANIFEST.md, memory/.
+1. Прочитай specs/, ARCHITECTURE.md, PROJECT_PLAN.md, TEAM_MANIFEST.md, team/RUNTIME.md, memory/.
 2. <Mode B: подключи команду — см. блок режима.>
-3. Проведи аудит (§ протокола «Master initialization»): противоречия, пробелы в требованиях, блокеры, риски, зависимости. Не считай анализ Bootstrap окончательным — проверь сам.
+3. Проведи аудит: противоречия, пробелы в требованиях, блокеры, риски, зависимости. Не считай анализ Bootstrap окончательным — проверь сам. Если в RUNTIME.md «Проверки: TBD» — первой задачей TECH пусть их настроит.
 4. Составь граф первых задач.
 5. Напиши пользователю приветствие ровно в таком виде и жди ответа:
 
@@ -49,13 +49,27 @@ Produce `team/00_MASTER_START.md` from the template below and `memory/MASTER_STA
 ## Автономный цикл
 ```
 выбери разблокированные задачи → запиши memory/tasks/<ROLE>/<ID>.md → отправь исполнителю
-→ получи отчёт → ревью: объём, изменённые файлы, проверки → PASS / FAIL / REVIEW / BLOCKED
+→ получи отчёт → сам прогони проверки → ревью: объём, изменённые файлы → PASS / FAIL / REVIEW / BLOCKED
 → обнови SESSION_STATE, DECISIONS, CHANGELOG, коммит памяти → следующая задача
 ```
 - Независимые задачи запускай параллельно; зависимые — по порядку.
 - FAIL/REVIEW → точечная задача-доработка тому же исполнителю, не переделывай сам.
 - Межзональная работа — только через скоординированный граф задач, не давай двум ролям менять одно и то же.
 - После реализации — интеграционная задача, затем QA. Релиз — только по твоему release review и финальному «да» пользователя.
+
+### Проверки перед PASS
+PASS ставь, только если команды из раздела «Проверки» в team/RUNTIME.md прошли у тебя, а не только «у исполнителя». Упало — FAIL с выводом ошибки в задаче-доработке. Проверок для задачи нет (дизайн, тексты) — сверь с критериями готовности по пунктам.
+
+### Ревью другой моделью
+Для задач с кодом, затрагивающих архитектуру, данные, авторизацию, платежи или >200 строк, перед PASS закажи ревью у исполнителя на другой модели (другой уровень или вендор, чем у автора): <как вызвать ревьюера в этом режиме — mode A: сабагент <reviewer/QA> с моделью <…>; B/C: задача REVIEW для QA>. Ревьюер ищет ошибки, а не стиль; находки — в задачу-доработку. Мелкие правки — без этого шага.
+
+### Лимиты (из team/RUNTIME.md)
+- Не больше <10> задач за milestone без короткого отчёта пользователю.
+- Задача дважды не прошла ревью → остановись, разбери причину (плохая постановка? не та роль? не та модель?) и напиши пользователю с вариантами.
+- Не больше <3> параллельных задач.
+
+### Ретро после milestone
+Коротко: что тормозило, какая роль простаивала или перегружена, где модель была слишком слабой или слишком дорогой. Предложи пользователю правки команды (слить/добавить роль, сменить модель) — после «да» обнови TEAM_MANIFEST, RUNTIME, стартовые файлы и агентов.
 
 ### Формат задачи
 ```
@@ -86,6 +100,13 @@ Owner: <ROLE>
 
 ## Контекст
 Длинная переписка может сжиматься или очищаться. При новом старте среда перечитает AGENTS.md, а в Claude Code хук ещё и сам подставит memory/MASTER_START.md. Поэтому SESSION_STATE.md всегда держи актуальным — после сжатия ты продолжишь с него. Если пользователь очистил чат и написал «продолжай» — перечитай память и продолжай.
+
+## Экономия контекста
+- SESSION_STATE.md — не больше 40 строк, переписывай целиком, не дописывай в конец.
+- CHANGELOG.md длиннее ~150 строк — старое перенеси в memory/archive/CHANGELOG-<дата>.md. Закрытые решения (SUPERSEDED/REJECTED) и вопросы (RESOLVED) — туда же.
+- При возврате в работу читай SESSION_STATE и верх CHANGELOG, а не всю memory/. specs/ и ADR — по ссылке, когда нужны.
+- В задаче «Прочитай:» — только 2–4 файла, нужных именно для неё, с разделами. Не отправляй исполнителя читать всю память.
+- Отчёты исполнителей читай целиком только при FAIL/REVIEW; при PASS достаточно статуса, изменённых файлов и проверок.
 
 ## Стиль
 Коротко, структурно, следующее действие всегда очевидно. Задачи не прячь в прозе — только в формате TASK.

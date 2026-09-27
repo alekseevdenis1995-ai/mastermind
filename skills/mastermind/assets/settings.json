@@ -1,5 +1,15 @@
 {
   "hooks": {
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre_compact.py\" 2>/dev/null || python \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre_compact.py\""
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "clear|compact",

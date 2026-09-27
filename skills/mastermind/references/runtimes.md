@@ -112,7 +112,7 @@ This project is run by an AI team. Roles, memory and protocols live in this repo
 - Team, models and runtime: TEAM_MANIFEST.md, team/RUNTIME.md. State: memory/SESSION_STATE.md.
 ```
 
-**Claude Code only:** also install the SessionStart hook (`assets/settings.json` + `assets/hooks/restore_context.py`). It injects the exact role on clear/compact, including per-chat roles in mode B.
+**Claude Code only:** also install the hooks (`assets/settings.json` + `assets/hooks/pre_compact.py`, `restore_context.py`). PreCompact snapshots git state and stale memory; SessionStart injects the exact role (including per-chat roles in mode B) plus that snapshot on clear/compact.
 
 ## 6. Orca and other multi-agent launchers
 

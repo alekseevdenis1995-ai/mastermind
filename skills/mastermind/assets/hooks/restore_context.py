@@ -38,3 +38,10 @@ else:
     if master_start.is_file():
         print("Контекст этого чата был очищен или сжат.\n")
         print(master_start.read_text(encoding="utf-8"))
+
+snapshot = root / ".claude" / "compact" / f"{event.get('session_id', 'unknown')}.md"
+if snapshot.is_file():
+    text = snapshot.read_text(encoding="utf-8").strip()
+    if text:
+        print("\nСнимок перед сжатием:\n" + text)
+    snapshot.unlink()
