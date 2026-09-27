@@ -104,6 +104,11 @@ Open Claude Code in an empty project folder and type:
 
 Or just say *"I have a project idea, build me a team"*.
 
+Three entry points:
+1. **📄 Spec** — a file or archive becomes a team.
+2. **💡 Idea** — a council turns it into a spec, then a team.
+3. **🔍 Existing project** — open your agent in the project folder and say *"analyse this project, what next?"*. Mastermind audits it read-only and gives one verdict: all good, fix first, deploy a team, or adjust the team you already run.
+
 <img src="docs/start.svg" alt="Mastermind start menu" width="100%">
 
 When the team is up, the Master audits the project and asks for a go:
@@ -130,6 +135,13 @@ flowchart LR
 2. **Models and mode.** Mastermind detects the harness and the models you have connected (Claude, GPT, Gemini, or whatever OpenCode, Goose or Orca expose). It maps them to **HEAVY / STANDARD / LIGHT** tiers, which you can adjust, then recommends mode A, B or C.
 3. **Bootstrap.** It designs the *smallest effective team*: roles, ownership boundaries and a tier per role. It writes the whole project package: `AGENTS.md`, native agent files, starter prompts and memory.
 4. **Run.** The Master audits the project, tells you what it did and where it will start, then after your *"yes"* loops through task, report, review, memory update and next task. You only hear from it for product decisions, blockers, pushes and deploys, and releases.
+
+**Quality and token cost:**
+- PASS only after the project's checks (tests, lint, build), run by the Master itself.
+- Risky code gets a second review from a different model.
+- Limits: a report to you every N tasks; after two failed rework rounds it stops and asks you.
+- Memory stays small: SESSION_STATE ≤40 lines, old entries go to `memory/archive/`, specialists read only the files a task needs.
+- A short retro after each milestone proposes team changes.
 
 ## 📁 What you get
 

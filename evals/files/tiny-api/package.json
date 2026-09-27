@@ -1,0 +1,1 @@
+{ "name": "tiny-api", "version": "0.1.0", "scripts": { "start": "node src/index.js" }, "dependencies": { "express": "^4.19.0" } }
