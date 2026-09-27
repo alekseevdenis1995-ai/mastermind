@@ -16,7 +16,7 @@
 
 No more opening ten chats and pasting ten prompts by hand.
 
-**Works in any agent harness:** Claude Code · Codex · Cursor · OpenCode · Gemini CLI · GitHub Copilot · Windsurf · Kiro · Factory · Amp · Goose · Cline · Kilo · and multi-agent launchers like **Orca**. Mastermind detects where it runs and **assigns models from the ones you actually have connected**.
+**Works in any agent harness:** Claude Code · Codex · Cursor · OpenCode · Gemini CLI · Google Antigravity · GitHub Copilot · Windsurf · Kiro · Factory · Amp · Goose · Cline · Kilo · and multi-agent launchers like **Orca**. Mastermind detects where it runs and **assigns models from the ones you actually have connected**.
 
 ## ✨ Why
 
@@ -37,6 +37,7 @@ No more opening ten chats and pasting ten prompts by hand.
 | Codex CLI | ✅ | ✅ model + reasoning effort | — | ✅ |
 | OpenCode | ✅ | ✅ any `provider/model` | — | ✅ |
 | Gemini CLI | ✅ | ✅ Pro / Flash | — | ✅ |
+| Google Antigravity | ⚠️ varies | ⚠️ Gemini models | — | ✅ |
 | Cursor · Copilot · Kilo · Factory | ✅ | ✅ via agent files | — | ✅ |
 | Windsurf · Kiro · Amp · Goose · Cline | ⚠️ varies | ⚠️ varies | — | ✅ |
 | **Orca** and other worktree launchers | — | ✅ a different CLI per role | — | ✅ branch per role |

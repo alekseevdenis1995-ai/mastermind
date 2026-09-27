@@ -1,6 +1,6 @@
 # Runtimes: harnesses, capabilities, models
 
-Mastermind must work in whatever agent harness it is running in: Claude Code, Codex CLI, Cursor, OpenCode, Gemini CLI, GitHub Copilot, Windsurf/Devin, Kilo, Kiro, Factory Droid, Amp, Goose. It must also work inside multi-agent launchers such as Orca. This file tells you how to detect where you are, what you can do there, and which models to give each role.
+Mastermind must work in whatever agent harness it is running in: Claude Code, Codex CLI, Cursor, OpenCode, Gemini CLI, Google Antigravity, GitHub Copilot, Windsurf/Devin, Kilo, Kiro, Factory Droid, Amp, Goose. It must also work inside multi-agent launchers such as Orca. This file tells you how to detect where you are, what you can do there, and which models to give each role.
 
 Facts here were checked in late 2026. Harnesses change fast: when a format below is rejected or a command doesn't exist, trust the harness over this file, adapt, and tell the user in one line.
 
@@ -23,6 +23,7 @@ Check these in order; stop at the first confident match. Don't ask the user unle
 | You have an `Agent`/`Task` tool with a `model` parameter and `CLAUDECODE=1` in env | Claude Code |
 | …plus `mcp__ccd_session_mgmt__*` / `SendMessage` to other sessions in your tool list | Claude Code **Desktop** (mode B possible) |
 | env `CODEX_*`, or you are told you are Codex; `~/.codex/config.toml` exists | Codex CLI |
+| Your system prompt names Antigravity, or the skill was loaded from `~/.gemini/antigravity/skills` / `.agents/skills` inside an IDE | Google Antigravity |
 | env `GEMINI_CLI`/`GEMINI_*`, or GEMINI.md conventions in your system prompt | Gemini CLI |
 | env `OPENCODE*`, `opencode.json` in project or `~/.config/opencode/` | OpenCode |
 | Cursor tool names / system prompt mentions Cursor | Cursor |
@@ -58,6 +59,7 @@ Roles need **tiers**, not model names:
 - **Codex:** read `~/.codex/config.toml` (`model`, `[profiles.*]`, `model_reasoning_effort`). If only one model is configured, vary `model_reasoning_effort` (high / medium / low) as the tier.
 - **OpenCode:** run `opencode models`; ids look like `provider/model`. Prefer models from providers that already have credentials.
 - **Gemini CLI:** `~/.gemini/settings.json` → `model.name`. Pro and Flash are normally both available on the same key.
+- **Antigravity:** models are picked in the IDE (Gemini Pro / Flash, plus whatever else the user enabled) and can't be set per subagent from inside. Ask once which are available. Default to mode C: one Agent Manager agent per role, each with its own model chosen by the user; mode A only if you actually have a subagent tool.
 - **Goose:** env `GOOSE_MODEL` / `GOOSE_PROVIDER`, `~/.config/goose/config.yaml`.
 - **Cursor, Copilot, Windsurf, Kiro, Amp:** models come from the user's subscription and can't be listed reliably from inside. Use `inherit` / the harness's "fast" option where it exists, or ask once.
 - **Unknown:** ask once, as a multiple choice where possible: «Какие модели у вас подключены? (например: Claude Opus/Sonnet/Haiku, GPT-5, Gemini Pro/Flash, локальные)».
@@ -100,7 +102,7 @@ If there is no agent-file support but the subagent tool takes a `model` param, p
 Every harness re-reads its project instruction file at session start. That file is the universal way to restore context after `/clear`, compaction or a restart.
 
 - Always write **`AGENTS.md`**. It is read by Codex, Cursor, OpenCode, Copilot, Amp, Factory, Goose and others.
-- Also write a one-line pointer file for the current harness when it doesn't read AGENTS.md: `CLAUDE.md` (Claude Code), `GEMINI.md` (Gemini CLI). Content: `See AGENTS.md.` plus nothing else project-specific. On Claude Code, `@AGENTS.md` imports it.
+- Also write a one-line pointer file for the current harness when it doesn't read AGENTS.md: `CLAUDE.md` (Claude Code), `GEMINI.md` (Gemini CLI, Antigravity). Content: `See AGENTS.md.` plus nothing else project-specific. On Claude Code, `@AGENTS.md` imports it.
 
 AGENTS.md content (short):
 

@@ -20,6 +20,7 @@ map=(
   "$h/.codex|$h/.agents/skills"                   # Codex CLI
   "$h/.cursor|$h/.agents/skills"                  # Cursor
   "$h/.gemini|$h/.agents/skills"                  # Gemini CLI
+  "$h/.gemini/antigravity|$h/.gemini/antigravity/skills"  # Google Antigravity
   "$h/.config/opencode|$h/.agents/skills"         # OpenCode
   "$h/.copilot|$h/.agents/skills"                 # GitHub Copilot
   "$h/.codeium|$h/.agents/skills"                 # Windsurf / Devin

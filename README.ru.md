@@ -20,7 +20,7 @@
 
 Не нужно открывать десять чатов и вставлять в каждый стартовый промпт руками.
 
-**Работает в любой агентной среде:** Claude Code · Codex · Cursor · OpenCode · Gemini CLI · GitHub Copilot · Windsurf · Kiro · Factory · Amp · Goose · Cline · Kilo, а также в мультиагентных оболочках вроде **Orca**. Mastermind сам определяет, где запущен, и **назначает модели из тех, что у вас реально подключены**.
+**Работает в любой агентной среде:** Claude Code · Codex · Cursor · OpenCode · Gemini CLI · Google Antigravity · GitHub Copilot · Windsurf · Kiro · Factory · Amp · Goose · Cline · Kilo, а также в мультиагентных оболочках вроде **Orca**. Mastermind сам определяет, где запущен, и **назначает модели из тех, что у вас реально подключены**.
 
 ## ✨ Зачем
 
@@ -41,6 +41,7 @@
 | Codex CLI | ✅ | ✅ модель + глубина рассуждений | — | ✅ |
 | OpenCode | ✅ | ✅ любая `provider/model` | — | ✅ |
 | Gemini CLI | ✅ | ✅ Pro / Flash | — | ✅ |
+| Google Antigravity | ⚠️ по-разному | ⚠️ модели Gemini | — | ✅ |
 | Cursor · Copilot · Kilo · Factory | ✅ | ✅ через файлы агентов | — | ✅ |
 | Windsurf · Kiro · Amp · Goose · Cline | ⚠️ по-разному | ⚠️ по-разному | — | ✅ |
 | **Orca** и другие оболочки с worktree | — | ✅ своя CLI для каждой роли | — | ✅ ветка на роль |
