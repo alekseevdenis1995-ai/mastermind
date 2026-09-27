@@ -21,17 +21,25 @@ if not memory.is_dir():
     sys.exit(0)
 
 try:
-    roles = json.loads((memory / "sessions.json").read_text(encoding="utf-8")).get("roles", {})
+    sessions = json.loads((memory / "sessions.json").read_text(encoding="utf-8"))
 except Exception:
-    roles = {}
+    sessions = {}
+roles = sessions.get("roles", {}) or {}
+session_id = event.get("session_id", "")
 
-start_file = roles.get(event.get("session_id", ""))
-if start_file:
+start_file = roles.get(session_id)
+if isinstance(start_file, str) and start_file.endswith(".md"):
     role = Path(start_file).stem.replace("_START", "")
     print(
         f"Контекст этого чата был очищен или сжат. Ты — {role} в AI-команде проекта.\n"
         f"Перечитай {start_file} (твоя роль) и свои отчёты в memory/reports/.\n"
         "Если задача была в работе — доведи её и отправь отчёт MASTER. Иначе — READY / WAITING FOR TASK."
+    )
+elif roles and not str(sessions.get("mode", "A")).startswith("A") and sessions.get("master") != session_id:
+    print(
+        "Контекст этого чата был очищен или сжат. Этот чат не найден в memory/sessions.json.\n"
+        "Если ты специалист (NN <ROLE>) — перечитай свой team/NN_<ROLE>_START.md и свои отчёты в memory/reports/.\n"
+        "Если ты MASTER — прочитай memory/MASTER_START.md."
     )
 else:
     master_start = memory / "MASTER_START.md"

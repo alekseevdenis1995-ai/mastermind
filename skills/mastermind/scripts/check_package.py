@@ -38,8 +38,8 @@ mode = None
 try:
     sessions = json.loads(read("memory/sessions.json") or "{}")
     mode = sessions.get("mode")
-    if mode not in ("A", "B", "C"):
-        errors.append('memory/sessions.json: "mode" must be A, B or C')
+    if not str(mode or "")[:1] in ("A", "B", "C"):
+        errors.append('memory/sessions.json: "mode" must start with A, B or C')
     if not isinstance(sessions.get("roles", {}), dict):
         errors.append('memory/sessions.json: "roles" must be an object')
 except json.JSONDecodeError as e:
