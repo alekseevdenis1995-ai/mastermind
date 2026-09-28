@@ -15,7 +15,7 @@ from pathlib import Path
 
 sys.stdout.reconfigure(encoding="utf-8")
 
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 ap = argparse.ArgumentParser()
 ap.add_argument("project")

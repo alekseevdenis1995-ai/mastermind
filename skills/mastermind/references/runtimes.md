@@ -68,6 +68,8 @@ Roles need **tiers**, not model names:
 - MASTER gets the best HEAVY model available.
 - If only one model exists, every role uses it. Differentiate with reasoning effort where the harness supports it; otherwise don't pretend there are tiers.
 - If several vendors are connected (OpenCode, Goose, Orca), you may mix: e.g. TECH on a strong coding model, CONTENT on a cheaper one. Record why.
+- **Orca / launchers:** the model pool is the union of models of every CLI the user runs there. Discover per CLI with the rules above (Codex config, `opencode models`, Claude aliases…), or ask once which CLIs are connected. A role may only get a model from a CLI that is actually connected.
+- **Reviewer model.** Pick the code reviewer (MASTER «Ревью другой моделью») from this pool: different vendor if one is connected, else a different tier, else the same model in a fresh session. Record it in RUNTIME.md. Never name a model that wasn't discovered or confirmed.
 - Write the result to `TEAM_MANIFEST.md` as `Role | Tier | Harness | Model | Why`, and a copy in `team/RUNTIME.md`.
 
 ## 4. Native agent definitions per harness

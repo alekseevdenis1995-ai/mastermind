@@ -145,6 +145,8 @@ flowchart LR
 - A short retro after each milestone proposes team changes.
 - Boilerplate (memory, hooks, AGENTS.md, agent files) is created by a script, not typed out by the model.
 
+> 💡 Specialists that write code follow a "do less" ladder adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT): reuse, stdlib, platform, installed deps, one line — before writing anything new. Built into the start prompts, so it works in every harness; no plugin needed.
+
 > 💡 For long Master sessions in Claude Code you can add [fast-jev-compaction](https://github.com/kargnas/fast-jev-compaction): it drops stale tool output on compaction instead of summarising, so paths and errors survive. Optional; it sends the transcript to the external Jev service.
 
 ## 📁 What you get

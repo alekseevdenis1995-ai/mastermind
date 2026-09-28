@@ -58,7 +58,7 @@ Show the plan, then after "да":
 2. Replace `.claude/hooks/restore_context.py` and `pre_compact.py` with the skill's current `assets/hooks/` versions (they belong to the skill, not the project).
 3. `team/RUNTIME.md`: add `## Проверки` with the project's real test/lint/build commands (look in package.json, pyproject, Makefile, CI) and `## Лимиты`; add `Пакет: mastermind v<version>` at the top.
 4. `team/00_MASTER_START.md`: insert the sections from the current `master-template.md` that it lacks — «Проверки перед PASS», «Ревью другой моделью», «Лимиты», «Ретро после milestone», «Экономия контекста», and the Проверки hint in «Старт». Fill them for this project. Don't rewrite the project-specific parts.
-5. Each specialist start file: add the two lines from `specialist-template.md` about reading only the task's files and not writing PASS without checks.
+5. Each specialist start file: add the two lines from `specialist-template.md` about reading only the task's files and not writing PASS without checks; for roles that write code, add the «Как писать код» section (`<CODE_LADDER>`). In `00_MASTER_START.md` «Ревью другой моделью», name a reviewer model from the models actually connected (RUNTIME.md / runtimes.md §3).
 6. If SESSION_STATE > 40 lines or CHANGELOG > 150 lines — propose trimming into `memory/archive/`, don't do it silently.
 7. `memory/DECISIONS.md`: record `D-NNN Mastermind upgraded to v<version>`; CHANGELOG line; `check_package.py`; commit `memory: mastermind upgrade v<version>`.
 
