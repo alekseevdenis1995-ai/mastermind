@@ -21,7 +21,8 @@ Check these in order; stop at the first confident match. Don't ask the user unle
 | Signal | Harness |
 |---|---|
 | You have an `Agent`/`Task` tool with a `model` parameter and `CLAUDECODE=1` in env | Claude Code |
-| …plus `mcp__ccd_session_mgmt__*` / `SendMessage` to other sessions in your tool list | Claude Code **Desktop** (mode B possible) |
+| …plus `mcp__ccd_session_mgmt__*` tools (loaded or in the deferred-tools list) | Claude Code **Desktop** (mode B, full: rename chats, set models) |
+| …plus `SendMessage` and `ListAgents` (loaded or deferred), no `ccd_session_mgmt` | Claude Code in **VS Code / JetBrains / CLI** (mode B-lite: MASTER messages chats; user renames them and sets models) |
 | env `CODEX_*`, or you are told you are Codex; `~/.codex/config.toml` exists | Codex CLI |
 | Your system prompt names Antigravity, or the skill was loaded from `~/.gemini/antigravity/skills` / `.agents/skills` inside an IDE | Google Antigravity |
 | env `GEMINI_CLI`/`GEMINI_*`, or GEMINI.md conventions in your system prompt | Gemini CLI |
@@ -39,7 +40,8 @@ Your own system prompt usually names the product. Use that first.
 |---|---|---|
 | Spawn subagents | a Task/Agent/subagent tool is in your tool list | mode **A** |
 | Choose model per subagent | the tool has a `model` param, or the harness supports agent files with `model:` (§4) | per-role models in A |
-| Message other live sessions | Claude Code Desktop session tools (`list_sessions`, `SendMessage`) | mode **B** |
+| Message other live sessions | `SendMessage` + `ListAgents` in your tools **or in the deferred-tools list** (Claude Code: Desktop, VS Code, JetBrains, CLI). Deferred tools count: they load via ToolSearch | mode **B** |
+| Rename chats / set their model | Desktop session tools (`mcp__ccd_session_mgmt__set_session_title`, `set_session_model`) | full B; without them — B-lite (the user renames chats and picks models) |
 | None of the above | — | mode **C** (manual relay), always available |
 
 Mode C works everywhere, including plain chat UIs and Orca. It is also the fallback when A or B break mid-project.

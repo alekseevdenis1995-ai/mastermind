@@ -1,6 +1,6 @@
 # MASTER starter prompt template
 
-Produce `team/00_MASTER_START.md` from the template below. `memory/MASTER_START.md` ("Re-entry" section) is written by `scripts/scaffold.py`; write it by hand only if the scaffold wasn't run. Fill every `<…>`, keep only the mode block (A, B or C) the user chose, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §2).
+Produce `team/00_MASTER_START.md` from the template below. `memory/MASTER_START.md` ("Re-entry" section) is written by `scripts/scaffold.py`; write it by hand only if the scaffold wasn't run. Fill every `<…>`, keep only the mode block (A, B, B-lite or C) the user chose — B-lite when there are `SendMessage` + `ListAgents` but no Desktop session tools, filled with the concrete names from `team/RUNTIME.md`, write in the project language. The MASTER prompt must be self-contained: it summarizes the team, protocols and formats instead of pointing at the bootstrap protocol (protocol §2).
 
 ---
 
@@ -28,7 +28,7 @@ Produce `team/00_MASTER_START.md` from the template below. `memory/MASTER_START.
 - memory/tasks/<ROLE>/<ID>.md, memory/reports/<ROLE>/<ID>.md
 Связывай записи ссылками [[ID]], [[DECISIONS#D-…]]. Память коммить: `memory: <что>`.
 
-<MODE BLOCK — вставить A или B, см. ниже>
+<MODE BLOCK — вставить A, B или B-lite, см. ниже>
 
 ## Старт
 1. Прочитай specs/, ARCHITECTURE.md, PROJECT_PLAN.md, TEAM_MANIFEST.md, team/RUNTIME.md, memory/.
@@ -161,6 +161,25 @@ Fill `<…>` with the concrete mechanism from runtimes.md §4 for this harness: 
 - Все чаты должны быть в одном режиме разрешений, иначе сообщения ждут ручного подтверждения.
 - Не проси специалиста сделать то, что заблокировано в твоих разрешениях.
 - Новые чаты создать не можешь: если нужна новая роль — попроси пользователя открыть пустой чат в этой папке, дальше подключи сам.
+```
+
+## Mode block B-lite — real chats without Desktop session tools (VS Code / JetBrains / CLI)
+
+Use when `SendMessage` + `ListAgents` exist but `mcp__ccd_session_mgmt__*` don't. Same «Отправка задач», «Отчёты», «Ограничения» as block B, but SendMessage has no `notify_when_idle` here — use ListAgents idle/busy instead. Replace «Подключение команды» with:
+
+```markdown
+## Режим работы: отдельные чаты (Claude Code в <VS Code / JetBrains / CLI>)
+Специалисты живут в отдельных чатах Claude Code в этой же папке. Ты связываешься с ними сам через ListAgents и SendMessage. Переименовать чат или сменить в нём модель ты не можешь — это делает пользователь по твоей просьбе.
+
+### Подключение команды (один раз, на старте)
+1. Загрузи инструменты: ToolSearch `select:SendMessage,ListAgents`.
+2. ListAgents → строка «This session is <имя>» — это ты. Запиши своё имя в memory/sessions.json → `master`.
+3. Кандидаты: чаты в этой папке, недавно созданные, idle, кроме тебя и имён из `ignore` в sessions.json. Нужно <N>. Если кандидатов ровно столько — бери их по порядку списка; иначе один раз покажи список пользователю и спроси.
+4. Для каждой роли SendMessage (to = имя чата): «Ты — <NN> <ROLE> проекта <Project>. MASTER — чат <твоё имя>. Прочитай team/<NN>_<ROLE>_START.md — это твоя постоянная роль — и ответь MASTER-у через SendMessage одной строкой: <NN> <ROLE> — READY.»
+5. Запиши в memory/sessions.json `"roles": {"<имя чата>": "team/<NN>_<ROLE>_START.md", …}` — по нему хук восстанавливает роль после /clear или сжатия. Имена чатов меняются при перезапуске — сверяй через ListAgents и обновляй. Закоммить.
+6. Жди READY. Кто молчит — повтори; если сообщения ждут подтверждения — у чатов разный режим разрешений, попроси пользователя выставить всем один (Auto).
+7. Попроси пользователя: выбрать модели в чатах (<ROLE> — <model>, …) и переименовать вкладки в «<NN> <ROLE>».
+Новая роль посреди проекта: попроси пользователя открыть пустой чат в этой папке, найди его через ListAgents и подключи так же (шаги 4–5). Не предлагай вместо этого сабагентов или ручную пересылку, пока связь между чатами работает.
 ```
 
 ## Mode block C — manual relay (any harness, Orca, mixed vendors)

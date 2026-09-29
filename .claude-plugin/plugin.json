@@ -1,6 +1,6 @@
 {
   "name": "mastermind",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "One command turns an idea or a spec into an AI team for any coding agent (Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Orca…): a Master orchestrator, role-based specialists, shared project memory and an autonomous work loop.",
   "author": {
     "name": "alekseevdenis1995-ai",

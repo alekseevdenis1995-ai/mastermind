@@ -12,7 +12,7 @@
 
 ---
 
-**Mastermind** is a Claude Code skill that turns a raw idea or a ready spec into a working AI team: one **Master** orchestrator, a set of **specialists** with clear roles and the right model each, a shared **project memory**, and an **autonomous loop** that runs the project while you only make the product decisions.
+**Mastermind** is an agent skill that turns a raw idea or a ready spec into a working AI team: one **Master** orchestrator, a set of **specialists** with clear roles and the right model each, a shared **project memory**, and an **autonomous loop** that runs the project while you only make the product decisions.
 
 No more opening ten chats and pasting ten prompts by hand.
 
@@ -32,7 +32,7 @@ No more opening ten chats and pasting ten prompts by hand.
 
 | Harness | Mode A: subagents | Per-role model | Mode B: live sessions | Mode C: manual relay |
 |---|:-:|:-:|:-:|:-:|
-| Claude Code (CLI / IDE) | ✅ | ✅ `opus / sonnet / haiku` | — | ✅ |
+| Claude Code (CLI / VS Code / JetBrains) | ✅ | ✅ `opus / sonnet / haiku` | ✅ lite | ✅ |
 | Claude Code **Desktop** | ✅ | ✅ | ✅ | ✅ |
 | Codex CLI | ✅ | ✅ model + reasoning effort | — | ✅ |
 | OpenCode | ✅ | ✅ any `provider/model` | — | ✅ |
@@ -43,7 +43,7 @@ No more opening ten chats and pasting ten prompts by hand.
 | **Orca** and other worktree launchers | — | ✅ a different CLI per role | — | ✅ branch per role |
 
 - **A — Subagents.** The Master spawns specialists itself. Where the harness supports agent files (`.claude/agents`, `.codex/agents`, `.opencode/agents`, `.cursor/agents`, `.gemini/agents`, `.github/agents`…), Mastermind generates a native agent per role with its model built in.
-- **B — Live sessions.** Only in Claude Code Desktop: the Master finds your empty chats, renames them, sets their models and messages them.
+- **B — Live sessions.** Claude Code only: every role is its own chat and the Master messages them itself. In **Desktop** it also renames the chats and sets their models; in **VS Code / JetBrains / CLI** (B-lite) it finds them via `ListAgents` and asks you to pick the models.
 - **C — Manual relay.** Works anywhere. The Master hands you copy-ready task blocks, and in **Orca** each role can run in a different CLI on its own `role/<ROLE>` branch, with the Master merging accepted work into `main`.
 
 ## 🚀 Install
@@ -93,7 +93,7 @@ cd mastermind && ./install.sh        # Windows: .\install.ps1
 - Python 3, for the Claude Code context-restore hook;
 - the `llm-council` skill; without it a built-in council is used.
 
-Mode B needs **Claude Code Desktop**.
+Mode B needs **Claude Code** (Desktop for full B; VS Code / JetBrains / CLI for B-lite).
 
 ## ▶️ Usage
 
@@ -139,7 +139,7 @@ flowchart LR
 
 **Quality and token cost:**
 - PASS only after the project's checks (tests, lint, build), run by the Master itself.
-- Risky code gets a second review from a different model.
+- Risky code gets a second review from a different model, picked only from the models you have connected (another vendor when available, e.g. via Orca).
 - Limits: a report to you every N tasks; after two failed rework rounds it stops and asks you.
 - Memory stays small: SESSION_STATE ≤40 lines, old entries go to `memory/archive/`, specialists read only the files a task needs.
 - A short retro after each milestone proposes team changes.
@@ -148,6 +148,18 @@ flowchart LR
 > 💡 Specialists that write code follow a "do less" ladder adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT): reuse, stdlib, platform, installed deps, one line — before writing anything new. Built into the start prompts, so it works in every harness; no plugin needed.
 
 > 💡 For long Master sessions in Claude Code you can add [fast-jev-compaction](https://github.com/kargnas/fast-jev-compaction): it drops stale tool output on compaction instead of summarising, so paths and errors survive. Optional; it sends the transcript to the external Jev service.
+
+## 🆕 What's new
+
+| Version | Changes |
+|---|---|
+| **1.4.0** | Mode B works in Claude Code for VS Code / JetBrains / CLI (B-lite via `ListAgents` + `SendMessage`), not only in Desktop. |
+| **1.3.0** | "Do less" code ladder for specialists; reviewer model only from connected models; Orca model pool per CLI. |
+| **1.2.0** | Existing-project audit with one verdict; checks before PASS; limits; PreCompact hook; team presets; `scaffold.py` + `check_package.py`; Antigravity support; 5× shorter bootstrap protocol. |
+
+Tested on 4 scenarios (spec, idea, existing project, Orca): 100% of checks vs 72% for 1.1.0; team setup ~30% faster.
+
+**Updating.** Re-run the installer: it replaces the skill everywhere it's installed. Projects built with an older version don't update themselves: open your agent in the project folder and say *"analyse this project, what next?"* — Mastermind spots the old package and offers an upgrade that only adds what's missing. Previous versions are kept as git tags (`v1.1.0`, …).
 
 ## 📁 What you get
 

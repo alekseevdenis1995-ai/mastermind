@@ -25,7 +25,7 @@ This skill is harness-agnostic. Everything harness-specific — detection, subag
 Before greeting, quietly work out where you are (`references/runtimes.md` §1–2). You need to know three things:
 - which harness this is;
 - whether you can spawn subagents, and whether they take a model;
-- whether you can message other live sessions.
+- whether you can message other live sessions (`SendMessage` + `ListAgents` — look in the deferred-tools list too; if you only see them there, they still count).
 
 Also glance at the current folder (one `ls` + `git log --oneline -3`): is it empty, a code project, or a Mastermind package (`TEAM_MANIFEST.md`, `team/`, `memory/`)?
 
@@ -76,14 +76,14 @@ The council advises; the user decides. Never skip their confirmation of the sket
 
 | | **A. Subagents** | **B. Live sessions** | **C. Manual relay** |
 |---|---|---|---|
-| Needs | a subagent tool (most harnesses) | Claude Code Desktop | anything, incl. Orca and plain chats |
+| Needs | a subagent tool (most harnesses) | Claude Code with `SendMessage` + `ListAgents` (Desktop, VS Code, JetBrains, CLI; deferred tools count) | anything, incl. Orca and plain chats |
 | Setup | nothing | user opens N empty chats | user opens N agent sessions and pastes start prompts |
 | Dispatch | MASTER spawns specialists itself | MASTER messages chats itself | user pastes MASTER's copy-ready tasks |
 | Specialist memory | fresh per task, reads `memory/` | persistent per role | persistent per role |
 | Per-role harness | no | no | yes: each role can run in a different CLI |
 | Fits | most projects, ≤5 roles | big projects, user wants to watch each role | Orca fleets, mixed vendors, no subagents |
 
-Default: **A** when subagents exist. **B** when on Claude Code Desktop and the team has ≥5 long-running roles, or the user wants to watch each specialist. **C** when neither is available, or the user runs Orca or another launcher and wants a different CLI per role.
+Default: **A** when subagents exist. **B** when `SendMessage` + `ListAgents` are available (check the deferred-tools list too — in VS Code they are usually deferred) and the team has ≥5 long-running roles, or the user wants to watch each specialist. **C** when neither is available, or the user runs Orca or another launcher and wants a different CLI per role.
 
 **Limits.** In the same message show the default limits (protocol §8: 10 tasks per milestone before a report, 2 rework rounds before escalation, 3 parallel tasks) and let the user change them.
 
@@ -153,6 +153,14 @@ Finish with one short, copy-friendly instruction. Everything the user must paste
 3. В ЛЮБОЙ из них вставьте:
    Прочитай memory/MASTER_START.md и начни работу.
 Мастер сам найдёт остальные чаты, переименует их, выставит модели, раздаст роли и после аудита спросит подтверждение.
+```
+**Mode B-lite (Claude Code in VS Code / JetBrains / CLI):**
+```
+1. Откройте <N+1> новых чатов Claude Code в папке <path>. Режим разрешений у всех одинаковый (Auto).
+2. В каждом чате специалиста выберите модель: <ROLE> — <model>, … (менять модель чужого чата Мастер не может).
+3. В ЛЮБОЙ из них (с моделью <HEAVY model>) вставьте:
+   Прочитай memory/MASTER_START.md и начни работу.
+Мастер сам найдёт остальные чаты через ListAgents, раздаст им роли и попросит переименовать вкладки. Остальные чаты не трогайте — пишет им Мастер.
 ```
 Explain why the permission mode must match: messages to a chat in a different mode wait for manual approval, which breaks autonomy.
 
