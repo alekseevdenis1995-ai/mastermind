@@ -1,7 +1,7 @@
 """Create the boilerplate of a Mastermind package so the model only writes what needs thought.
 
 Usage:
-  python scaffold.py <project_dir> --name "<Project>" --mode A|B|C --roles TECH,QA
+  python scaffold.py <project_dir> --name "<Project>" --mode A|B|B-lite|C --roles TECH,QA
                      [--harness claude|codex|cursor|opencode|gemini|antigravity|copilot|other]
                      [--models TECH=sonnet,QA=haiku] [--limits 10,2,3]
 
@@ -20,7 +20,7 @@ VERSION = "1.4.0"
 ap = argparse.ArgumentParser()
 ap.add_argument("project")
 ap.add_argument("--name", required=True)
-ap.add_argument("--mode", required=True, choices=["A", "B", "C"])
+ap.add_argument("--mode", required=True, choices=["A", "B", "B-lite", "C"])
 ap.add_argument("--roles", required=True, help="comma-separated, in team order: TECH,QA")
 ap.add_argument("--harness", default="claude")
 ap.add_argument("--models", default="", help="ROLE=model pairs, used for Claude Code agent files")
@@ -78,7 +78,7 @@ if pointer:
     else:
         write(pointer[0], pointer[1])
 
-reentry_b = "проверь связь с командой (ListAgents / list_sessions), " if args.mode == "B" else ""
+reentry_b = {"B": "проверь связь с командой (ListAgents / list_sessions), ", "B-lite": "проверь связь с командой (ListAgents), "}.get(args.mode, "")
 write("memory/MASTER_START.md", f"""
 Ты — MASTER проекта «{name}». Прочитай team/00_MASTER_START.md (твоя роль и протоколы), затем memory/SESSION_STATE.md, memory/sessions.json и последние записи CHANGELOG.
 Если это первый запуск (SESSION_STATE пуст) — выполни раздел «Старт».

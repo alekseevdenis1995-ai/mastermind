@@ -93,7 +93,7 @@ Follow `references/bootstrap-protocol.md` to design the minimum effective team, 
 
 **Scaffold first.** Run:
 ```
-python <skill>/scripts/scaffold.py <project> --name "<Project>" --mode <A|B|C> --roles TECH,QA --harness <claude|codex|…> --models TECH=sonnet,QA=haiku --limits 10,2,3
+python <skill>/scripts/scaffold.py <project> --name "<Project>" --mode <A|B|B-lite|C> --roles TECH,QA --harness <claude|codex|…> --models TECH=sonnet,QA=haiku --limits 10,2,3
 ```
 It creates the boilerplate (folders, seeded memory, sessions.json, MASTER_START re-entry, AGENTS.md + pointer file, RUNTIME skeleton, Claude Code hooks/settings/.gitignore and agent files) without overwriting anything, and prints what is left. Don't rewrite what it made — spend your effort on the files that need thought: TEAM_MANIFEST, PROJECT_PLAN, ARCHITECTURE, MASTER_CONTEXT, the start prompts, the TBD lines in RUNTIME, and native agent files for non-Claude harnesses. If Python isn't available, write everything by hand.
 
