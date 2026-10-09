@@ -129,6 +129,10 @@ Rules for this phase:
 - **Starter prompts are role assignments, not tasks** (protocol §2). Specialists end in `READY / WAITING FOR TASK`.
 - **Bootstrap does not start the work** (protocol §1). The first tasks come from the MASTER after its audit.
 - **Orca / worktree launchers.** Apply the branch-per-role memory rules from runtimes.md §6 and write them into RUNTIME.md and every start prompt.
+- **Companion skills (first setup).** Check which are installed (`~/.claude/skills`, `~/.agents/skills`, project `.agents/skills`) and offer the missing ones in ONE message, only those matching the team; install on a clear yes (downloads third-party files — name source and command):
+  - UI roles: `npx skills@latest add emilkowalski/skills` (animation), `npx skills add jakubkrehel/skills` (colors, layout, typography, a11y, polish), Anthropic `frontend-design` (anti-generic).
+  - Security audit wanted: `npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit`.
+  Add `--global` for a user-level install. They load only when a task needs them. Skipping is fine: `references/design-quality.md` and `security-audit.md` work without them. Mention restart: new skills appear in new sessions.
 - **Tokens.** If `node` exists, offer tokenjuice once (`references/token-saving.md`); install only on a clear yes.
 - **Validate.** Run `python scripts/check_package.py <project>` (path relative to this skill). Fix every ERROR; mention WARNs only if they matter.
 - **Git.** If there is no repo, run `git init`, then commit the package (never stage secrets).
