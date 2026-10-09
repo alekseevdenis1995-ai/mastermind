@@ -153,6 +153,7 @@ flowchart LR
 
 | Version | Changes |
 |---|---|
+| **1.5.0** | Opt-in security audit (adapted from Cloudflare's security-audit-skill); optional tokenjuice for compact terminal output; specialists keep test output short. |
 | **1.4.0** | Mode B works in Claude Code for VS Code / JetBrains / CLI (B-lite via `ListAgents` + `SendMessage`), not only in Desktop. |
 | **1.3.0** | "Do less" code ladder for specialists; reviewer model only from connected models; Orca model pool per CLI. |
 | **1.2.0** | Existing-project audit with one verdict; checks before PASS; limits; PreCompact hook; team presets; `scaffold.py` + `check_package.py`; Antigravity support; 5× shorter bootstrap protocol. |

@@ -129,6 +129,7 @@ Rules for this phase:
 - **Starter prompts are role assignments, not tasks** (protocol §2). Specialists end in `READY / WAITING FOR TASK`.
 - **Bootstrap does not start the work** (protocol §1). The first tasks come from the MASTER after its audit.
 - **Orca / worktree launchers.** Apply the branch-per-role memory rules from runtimes.md §6 and write them into RUNTIME.md and every start prompt.
+- **Tokens.** If `node` exists, offer tokenjuice once (`references/token-saving.md`); install only on a clear yes.
 - **Validate.** Run `python scripts/check_package.py <project>` (path relative to this skill). Fix every ERROR; mention WARNs only if they matter.
 - **Git.** If there is no repo, run `git init`, then commit the package (never stage secrets).
 
@@ -187,6 +188,8 @@ Don't act as MASTER in the bootstrap session. The bootstrap context is full of r
 - `references/ideation.md` — idea → ТЗ with the council. Read in Phase 1b.
 - `references/master-template.md` — the MASTER starter prompt: modes A/B/C, autonomous loop, re-entry. Read in Phase 3.
 - `references/specialist-template.md` — the specialist starter prompt. Read in Phase 3.
+- `references/security-audit.md` — opt-in security audit (recon → hunt → disprove → report). Read only on request or when the project audit flags security risks.
+- `references/token-saving.md` — optional tokenjuice install for compact terminal output. Read at hand-off.
 - `assets/settings.json`, `assets/hooks/` — the Claude Code PreCompact + context-restore hooks.
 - `scripts/scaffold.py` — writes the package boilerplate. Run at the start of Phase 3.
 - `scripts/check_package.py` — validates the generated package. Run at the end of Phase 3 and in Phase 1c.

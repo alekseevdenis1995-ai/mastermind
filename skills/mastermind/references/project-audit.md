@@ -20,6 +20,7 @@ Classify:
 - Health: do tests / lint / build exist and pass (run them only if they are fast and side-effect free; otherwise say "не запускал")? Test coverage in rough terms, CI present?
 - Structure: clear modules or a tangle, obvious duplication, dead code, secrets in the repo (report only the path, never the value).
 - Momentum: recent commits, abandoned branches, unfinished features, TODOs.
+- Security: if secrets, auth or untrusted input are in play, offer `references/security-audit.md` as a follow-up; don't run it unasked.
 - Risks: missing tests around critical parts, outdated deps with known issues, no backups/migrations for data.
 - Team fit: how many independent domains there really are (protocol §3, §5; presets in `team-presets.md`).
 

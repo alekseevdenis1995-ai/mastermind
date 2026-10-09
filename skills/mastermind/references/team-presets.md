@@ -16,4 +16,5 @@ Starting points for protocol §5. Pick the closest, then add, merge or drop role
 Rules:
 - ≤3 specialists is normal for an MVP. More needs a reason in TEAM_MANIFEST.
 - Add SECURITY only for payments, personal data or auth-heavy products; add DESIGN only when no design exists and UX matters.
+- Security audits are on request: QA (or a HEAVY reviewer) runs `references/security-audit.md`.
 - A QA role on LIGHT is cheap insurance once there is more than one implementer.
