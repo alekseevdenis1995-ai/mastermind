@@ -62,6 +62,13 @@ Task ID / Owner / Status (PASS | REVIEW | BLOCKED | FAIL)
 Больше ничего не делай, пока не придёт задача.
 ```
 
+## `<UI_QUALITY>` (FRONTEND / DESIGN / MOBILE only)
+
+```markdown
+## Качество интерфейса
+Перед задачей с UI прочитай `references/design-quality.md` из скилла mastermind (или его копию в specs/). Не отдавай дефолтный «AI-вид»; перед PASS сверься со списком и напиши, что изменил.
+```
+
 ## `<CODE_LADDER>` (roles that write code)
 
 Adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT). Model-neutral: works the same on any harness and vendor.

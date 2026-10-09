@@ -189,6 +189,7 @@ Don't act as MASTER in the bootstrap session. The bootstrap context is full of r
 - `references/master-template.md` — the MASTER starter prompt: modes A/B/C, autonomous loop, re-entry. Read in Phase 3.
 - `references/specialist-template.md` — the specialist starter prompt. Read in Phase 3.
 - `references/security-audit.md` — opt-in security audit (recon → hunt → disprove → report). Read only on request or when the project audit flags security risks.
+- `references/design-quality.md` — anti-slop UI rules (type, color, layout, motion, icons). Reference it from FRONTEND/DESIGN/MOBILE start prompts; don't read it unless the project has UI.
 - `references/token-saving.md` — optional tokenjuice install for compact terminal output. Read at hand-off.
 - `assets/settings.json`, `assets/hooks/` — the Claude Code PreCompact + context-restore hooks.
 - `scripts/scaffold.py` — writes the package boilerplate. Run at the start of Phase 3.
