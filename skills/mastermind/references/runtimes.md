@@ -1,6 +1,6 @@
 # Runtimes: harnesses, capabilities, models
 
-Mastermind must work in whatever agent harness it is running in: Claude Code, Codex CLI, Cursor, OpenCode, Gemini CLI, Google Antigravity, GitHub Copilot, Windsurf/Devin, Kilo, Kiro, Factory Droid, Amp, Goose. It must also work inside multi-agent launchers such as Orca. This file tells you how to detect where you are, what you can do there, and which models to give each role.
+Mastermind must work in whatever agent harness it is running in: Claude Code, Codex CLI, Cursor, OpenCode, Gemini CLI, Google Antigravity, GitHub Copilot, Windsurf/Devin, Kilo, Kiro, Factory Droid, Amp, Goose, Kimi Code. It must also work inside multi-agent launchers such as Orca. This file tells you how to detect where you are, what you can do there, and which models to give each role.
 
 Facts here were checked in late 2026. Harnesses change fast: when a format below is rejected or a command doesn't exist, trust the harness over this file, adapt, and tell the user in one line.
 
@@ -30,6 +30,7 @@ Check these in order; stop at the first confident match. Don't ask the user unle
 | Cursor tool names / system prompt mentions Cursor | Cursor |
 | Copilot system prompt / `.github/copilot-instructions.md` workflow | GitHub Copilot |
 | env `GOOSE_*` | Goose |
+| Your system prompt names Kimi / Kimi Code, or `~/.kimi-code/config.toml` exists and you have an `Agent` tool with `model: primary\|secondary` | Kimi Code (Kimi desktop app) |
 | env or prompt mentions Orca / you run inside an Orca worktree (`orca` CLI on PATH) | Orca-launched agent — see §6 |
 
 Your own system prompt usually names the product. Use that first.
@@ -62,6 +63,7 @@ Roles need **tiers**, not model names:
 - **OpenCode:** run `opencode models`; ids look like `provider/model`. Prefer models from providers that already have credentials.
 - **Gemini CLI:** `~/.gemini/settings.json` → `model.name`. Pro and Flash are normally both available on the same key.
 - **Antigravity:** models are picked in the IDE (Gemini Pro / Flash, plus whatever else the user enabled) and can't be set per subagent from inside. Ask once which are available. Default to mode C: one Agent Manager agent per role, each with its own model chosen by the user; mode A only if you actually have a subagent tool.
+- **Kimi Code:** read `~/.kimi-code/config.toml`: `default_model` is the primary model, `[models.*]` lists what's connected (e.g. K3.1 Pro, K3, K2.7 Code Highspeed), `[secondary_model]` sets the secondary one. Subagents can only pick `primary` or `secondary` (Agent tool `model` param, or `model_preference` in the agent file), so HEAVY = primary, STANDARD/LIGHT = secondary. If `[secondary_model]` isn't set, every role runs on primary: say so and suggest setting a cheaper model (e.g. a highspeed one) as secondary. Reasoning effort (`support_efforts`: low / high / max) is per session, not per subagent.
 - **Goose:** env `GOOSE_MODEL` / `GOOSE_PROVIDER`, `~/.config/goose/config.yaml`.
 - **Cursor, Copilot, Windsurf, Kiro, Amp:** models come from the user's subscription and can't be listed reliably from inside. Use `inherit` / the harness's "fast" option where it exists, or ask once.
 - **Unknown:** ask once, as a multiple choice where possible: «Какие модели у вас подключены? (например: Claude Opus/Sonnet/Haiku, GPT-5, Gemini Pro/Flash, локальные)».
@@ -96,6 +98,7 @@ Finish with a TASK REPORT and save it to memory/reports/<ROLE>/<TASK-ID>.md.
 | GitHub Copilot | `.github/agents/<role>.agent.md` | `description`, `model` |
 | Kilo Code | `.kilo/agents/<role>.md` | `model: provider/id` |
 | Factory Droid | `.factory/droids/<role>.md` | `model` (droids can't spawn sub-droids) |
+| Kimi Code | `.kimi-code/agents/<role>.md` (also reads `.agents/agents/`) | `name` (kebab-case), `description`, `model_preference: primary\|secondary`; body is required. Call with `Agent(subagent_type: "<role>")` |
 
 `description` should say when to use the agent, e.g. "TECH lead for <Project>: backend, DB, integrations. Use for tasks with Owner: TECH." Generate files only for the harness you're in, plus Claude Code's if `.claude/` is already used. Don't litter the repo with eight formats.
 
@@ -105,7 +108,7 @@ If there is no agent-file support but the subagent tool takes a `model` param, p
 
 Every harness re-reads its project instruction file at session start. That file is the universal way to restore context after `/clear`, compaction or a restart.
 
-- Always write **`AGENTS.md`**. It is read by Codex, Cursor, OpenCode, Copilot, Amp, Factory, Goose and others.
+- Always write **`AGENTS.md`**. It is read by Codex, Cursor, OpenCode, Copilot, Amp, Factory, Goose, Kimi Code and others.
 - Also write a one-line pointer file for the current harness when it doesn't read AGENTS.md: `CLAUDE.md` (Claude Code), `GEMINI.md` (Gemini CLI, Antigravity). Content: `See AGENTS.md.` plus nothing else project-specific. On Claude Code, `@AGENTS.md` imports it.
 
 AGENTS.md content (short):

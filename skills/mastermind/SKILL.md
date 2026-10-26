@@ -116,7 +116,7 @@ The finished package:
 │   ├── sessions.json       {"mode":"A|B|C","roles":{}}; MASTER fills session ids in mode B
 │   └── tasks/<ROLE>/  reports/<ROLE>/  adr/  archive/
 ├── specs/                  approved ТЗ + source material
-└── <native agent files>    mode A: per runtimes.md §4, e.g. .claude/agents/, .codex/agents/, .opencode/agents/
+└── <native agent files>    mode A: per runtimes.md §4, e.g. .claude/agents/, .codex/agents/, .opencode/agents/, .kimi-code/agents/
 ```
 
 Rules for this phase:

@@ -2,7 +2,7 @@
 
 Usage:
   python scaffold.py <project_dir> --name "<Project>" --mode A|B|B-lite|C --roles TECH,QA
-                     [--harness claude|codex|cursor|opencode|gemini|antigravity|copilot|other]
+                     [--harness claude|codex|cursor|opencode|gemini|antigravity|copilot|kimi|other]
                      [--models TECH=sonnet,QA=haiku] [--limits 10,2,3]
 
 Never overwrites an existing file. Prints what was created and what the model still has to write.
@@ -189,6 +189,21 @@ You are being called as a subagent: skip the READY step and execute the TASK you
 Finish with a TASK REPORT and save it to memory/reports/{r}/<TASK-ID>.md.
 """)
 
+if args.harness == "kimi" and args.mode == "A":
+    for i, r in enumerate(roles, 1):
+        pref = models.get(r, "secondary")
+        pref = pref if pref in ("primary", "secondary") else "secondary"
+        write(f".kimi-code/agents/{r.lower()}.md", f"""
+---
+name: {r.lower()}
+description: {json.dumps(f"{r} specialist for {name}. Use for tasks with Owner: {r}.", ensure_ascii=False)}
+model_preference: {pref}
+---
+Your permanent role is defined in team/{i:02d}_{r}_START.md — read it first and follow it.
+You are being called as a subagent: skip the READY step and execute the TASK you were given.
+Finish with a TASK REPORT and save it to memory/reports/{r}/<TASK-ID>.md.
+""")
+
 for c in created:
     print(f"+ {c}")
 for s in skipped:
@@ -197,5 +212,5 @@ todo = ["TEAM_MANIFEST.md", "PROJECT_PLAN.md", "ARCHITECTURE.md", "memory/MASTER
         "team/00_MASTER_START.md"] + [f"team/{i:02d}_{r}_START.md" for i, r in enumerate(roles, 1)]
 todo = [t for t in todo if not (root / t).exists()]
 print("\nStill to write:", ", ".join(todo))
-note = f"; write native agent files for {args.harness} (runtimes.md §4)" if args.mode == "A" and args.harness != "claude" else ""
+note = f"; write native agent files for {args.harness} (runtimes.md §4)" if args.mode == "A" and args.harness not in ("claude", "kimi") else ""
 print(f"Also fill TBD in team/RUNTIME.md{note}.")
