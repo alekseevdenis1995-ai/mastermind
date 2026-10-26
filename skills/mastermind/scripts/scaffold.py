@@ -181,7 +181,7 @@ if args.harness == "claude":
             write(f".claude/agents/{r.lower()}.md", f"""
 ---
 name: {r.lower()}
-description: {r} specialist for {name}. Use for tasks with Owner: {r}.
+description: {json.dumps(f"{r} specialist for {name}. Use for tasks with Owner: {r}.", ensure_ascii=False)}
 model: {models.get(r, "inherit")}
 ---
 Your permanent role is defined in team/{i:02d}_{r}_START.md — read it first and follow it.
