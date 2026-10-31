@@ -87,5 +87,6 @@ Per role pick a tier (HEAVY / STANDARD / LIGHT) by reasoning and coding complexi
 - [ ] Tier, harness, model and reason for every role
 - [ ] MASTER prompt and a self-contained starter for every role; none contains a task; each ends in READY
 - [ ] TEAM_MANIFEST, PROJECT_PLAN, ARCHITECTURE, RUNTIME (with Проверки and Лимиты), memory/ seeded
+- [ ] Project has UI: `specs/design-quality.md` is in place and every role that builds UI has `<UI_QUALITY>`
 - [ ] `scripts/check_package.py` passes
 - [ ] Nobody was given work: MASTER creates the first tasks

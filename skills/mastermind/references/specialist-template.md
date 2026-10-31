@@ -32,6 +32,8 @@ Fill every `<…>` from the project. The prompt must be self-contained (protocol
 
 <CODE_LADDER — only for roles that write code; omit for others>
 
+<UI_QUALITY — only for roles that build UI; omit for others>
+
 ## Отчёт
 После задачи:
 1. Сохрани отчёт в memory/reports/<ROLE>/<TASK-ID>.md по формату ниже.
@@ -64,11 +66,13 @@ Task ID / Owner / Status (PASS | REVIEW | BLOCKED | FAIL)
 Больше ничего не делай, пока не придёт задача.
 ```
 
-## `<UI_QUALITY>` (FRONTEND / DESIGN / MOBILE only)
+## `<UI_QUALITY>` (every role that builds UI: FRONTEND, DESIGN, MOBILE, WEB, or TECH with FRONTEND merged in)
 
 ```markdown
 ## Качество интерфейса
-Перед задачей с UI прочитай `references/design-quality.md` из скилла mastermind (или его копию в specs/). Не отдавай дефолтный «AI-вид»; перед PASS сверься со списком и напиши, что изменил.
+Перед задачей с UI прочитай specs/design-quality.md. Не отдавай дефолтный «AI-вид».
+Работай по направлению дизайна из memory/DECISIONS.md. Его ещё нет — сначала напиши его (§1 файла) и верни отчёт со статусом REVIEW, экраны не делай.
+Перед PASS пройди §6: отрендери экран и посмотри на него, если среда позволяет, сверься со списком признаков и напиши в отчёте, что нашёл и что изменил.
 ```
 
 ## `<CODE_LADDER>` (roles that write code)

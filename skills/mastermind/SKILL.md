@@ -93,7 +93,7 @@ Follow `references/bootstrap-protocol.md` to design the minimum effective team, 
 
 **Scaffold first.** Run:
 ```
-python <skill>/scripts/scaffold.py <project> --name "<Project>" --mode <A|B|B-lite|C> --roles TECH,QA --harness <claude|codex|…> --models TECH=sonnet,QA=haiku --limits 10,2,3
+python <skill>/scripts/scaffold.py <project> --name "<Project>" --mode <A|B|B-lite|C> --roles TECH,QA --harness <claude|codex|…> --models TECH=sonnet,QA=haiku --limits 10,2,3 [--ui]
 ```
 It creates the boilerplate (folders, seeded memory, sessions.json, MASTER_START re-entry, AGENTS.md + pointer file, RUNTIME skeleton, Claude Code hooks/settings/.gitignore and agent files) without overwriting anything, and prints what is left. Don't rewrite what it made — spend your effort on the files that need thought: TEAM_MANIFEST, PROJECT_PLAN, ARCHITECTURE, MASTER_CONTEXT, the start prompts, the TBD lines in RUNTIME, and native agent files for non-Claude harnesses. If Python isn't available, write everything by hand.
 
@@ -115,7 +115,7 @@ The finished package:
 │   ├── MASTER_CONTEXT.md  SESSION_STATE.md  DECISIONS.md  OPEN_QUESTIONS.md  CHANGELOG.md  IDEAS.md
 │   ├── sessions.json       {"mode":"A|B|C","roles":{}}; MASTER fills session ids in mode B
 │   └── tasks/<ROLE>/  reports/<ROLE>/  adr/  archive/
-├── specs/                  approved ТЗ + source material
+├── specs/                  approved ТЗ + source material; design-quality.md if the project has UI
 └── <native agent files>    mode A: per runtimes.md §4, e.g. .claude/agents/, .codex/agents/, .opencode/agents/, .kimi-code/agents/
 ```
 
@@ -125,12 +125,13 @@ Rules for this phase:
 - **Native agent files (mode A).** If the harness supports agent definitions with a model field, generate one per specialist (runtimes.md §4). The MASTER then calls specialists by name with the right model built in. Otherwise pass the model per call, or note in RUNTIME.md that subagents inherit the MASTER's model.
 - **Context restore.** AGENTS.md is the universal restore point. On Claude Code the scaffold also installs two hooks: PreCompact snapshots git state and stale memory; SessionStart re-injects each chat's role plus that snapshot after `/clear` or compaction, so nobody pastes prompts by hand.
 - **Quality gate.** Fill `## Проверки` in RUNTIME.md with the project's real test/lint/build commands (protocol §7) and `## Лимиты` from Phase 2.
+- **UI quality is on by default.** Every role that builds an interface gets `<UI_QUALITY>` in its start prompt, including TECH with FRONTEND merged in. Scaffold copies the rules to `specs/design-quality.md` on its own for roles named FRONTEND/DESIGN/MOBILE/WEB/UI/UX; for any other role that builds UI, pass `--ui`. The user doesn't have to ask or install anything.
 - **Memory is an Obsidian vault.** Link entries with `[[wiki-links]]` (`[[DECISIONS#D-003]]`, `[[TECH-013]]`) and name task/report files by ID. Opening the folder in Obsidian then gives a graph of decisions, tasks and reports. Mention this once; it's optional.
 - **Starter prompts are role assignments, not tasks** (protocol §2). Specialists end in `READY / WAITING FOR TASK`.
 - **Bootstrap does not start the work** (protocol §1). The first tasks come from the MASTER after its audit.
 - **Orca / worktree launchers.** Apply the branch-per-role memory rules from runtimes.md §6 and write them into RUNTIME.md and every start prompt.
 - **Companion skills (first setup).** Check which are installed (`~/.claude/skills`, `~/.agents/skills`, project `.agents/skills`) and offer the missing ones in ONE message, only those matching the team; install on a clear yes (downloads third-party files — name source and command):
-  - UI roles: `npx skills@latest add emilkowalski/skills` (animation), `npx skills add jakubkrehel/skills` (colors, layout, typography, a11y, polish), Anthropic `frontend-design` (anti-generic).
+  - UI roles: `npx skills@latest add emilkowalski/skills` (animation), `npx skills add jakubkrehel/skills` (colors, layout, typography, a11y, polish), `npx skills add heydamir/unslop` (full redline pass over an existing AI-looking screen), Anthropic `frontend-design` (anti-generic).
   - Security audit wanted: `npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit`.
   Add `--global` for a user-level install. They load only when a task needs them. Skipping is fine: `references/design-quality.md` and `security-audit.md` work without them. Mention restart: new skills appear in new sessions.
 - **Tokens.** If `node` exists, offer tokenjuice once (`references/token-saving.md`); install only on a clear yes.
@@ -193,7 +194,7 @@ Don't act as MASTER in the bootstrap session. The bootstrap context is full of r
 - `references/master-template.md` — the MASTER starter prompt: modes A/B/C, autonomous loop, re-entry. Read in Phase 3.
 - `references/specialist-template.md` — the specialist starter prompt. Read in Phase 3.
 - `references/security-audit.md` — opt-in security audit (recon → hunt → disprove → report). Read only on request or when the project audit flags security risks.
-- `references/design-quality.md` — anti-slop UI rules (type, color, layout, motion, icons). Reference it from FRONTEND/DESIGN/MOBILE start prompts; don't read it unless the project has UI.
+- `references/design-quality.md` — anti-slop UI rules (direction, signs of slop, order of work, starting values, check before PASS). Scaffold copies it to `specs/`; every role that builds UI reads it from there. Don't read it during bootstrap unless the project has UI.
 - `references/token-saving.md` — optional tokenjuice install for compact terminal output. Read at hand-off.
 - `assets/settings.json`, `assets/hooks/` — the Claude Code PreCompact + context-restore hooks.
 - `scripts/scaffold.py` — writes the package boilerplate. Run at the start of Phase 3.

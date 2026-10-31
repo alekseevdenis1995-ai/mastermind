@@ -18,3 +18,4 @@ Rules:
 - Add SECURITY only for payments, personal data or auth-heavy products; add DESIGN only when no design exists and UX matters.
 - Security audits are on request: QA (or a HEAVY reviewer) runs `references/security-audit.md`.
 - A QA role on LIGHT is cheap insurance once there is more than one implementer.
+- Any role that builds UI gets `<UI_QUALITY>` in its start prompt. If FRONTEND was merged into TECH, pass `--ui` to scaffold.

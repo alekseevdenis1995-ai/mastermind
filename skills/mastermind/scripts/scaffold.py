@@ -3,7 +3,7 @@
 Usage:
   python scaffold.py <project_dir> --name "<Project>" --mode A|B|B-lite|C --roles TECH,QA
                      [--harness claude|codex|cursor|opencode|gemini|antigravity|copilot|kimi|other]
-                     [--models TECH=sonnet,QA=haiku] [--limits 10,2,3]
+                     [--models TECH=sonnet,QA=haiku] [--limits 10,2,3] [--ui]
 
 Never overwrites an existing file. Prints what was created and what the model still has to write.
 """
@@ -16,6 +16,7 @@ from pathlib import Path
 sys.stdout.reconfigure(encoding="utf-8")
 
 VERSION = "1.5.0"
+UI_ROLES = {"FRONTEND", "DESIGN", "MOBILE", "WEB", "UI", "UX"}
 
 ap = argparse.ArgumentParser()
 ap.add_argument("project")
@@ -25,6 +26,7 @@ ap.add_argument("--roles", required=True, help="comma-separated, in team order: 
 ap.add_argument("--harness", default="claude")
 ap.add_argument("--models", default="", help="ROLE=model pairs, used for Claude Code agent files")
 ap.add_argument("--limits", default="10,2,3", help="tasks per milestone, rework rounds, parallel tasks")
+ap.add_argument("--ui", action="store_true", help="the project has UI but no role is named " + "/".join(sorted(UI_ROLES)))
 args = ap.parse_args()
 
 root = Path(args.project).resolve()
@@ -55,6 +57,9 @@ def keep(rel):
 
 for rel in ["specs", "memory/adr", "memory/archive"] + [f"memory/{k}/{r}" for k in ("tasks", "reports") for r in roles]:
     keep(rel)
+
+if args.ui or UI_ROLES & set(roles):
+    write("specs/design-quality.md", (skill / "references" / "design-quality.md").read_text(encoding="utf-8"))
 
 write("AGENTS.md", f"""
 # {name} — AI team

@@ -12,6 +12,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else ".").resolve()
 errors, warnings = [], []
+UI_ROLES = {"FRONTEND", "DESIGN", "MOBILE", "WEB", "UI", "UX"}
 
 REQUIRED = [
     "AGENTS.md", "TEAM_MANIFEST.md", "PROJECT_PLAN.md", "ARCHITECTURE.md",
@@ -64,6 +65,10 @@ for p in specialists:
         errors.append(f"{p.name}: no READY / WAITING FOR TASK state")
     if "bootstrap-protocol" in text or "PROJECT_BOOTSTRAP" in text:
         errors.append(f"{p.name}: points at the bootstrap protocol (must be self-contained)")
+    if role in UI_ROLES and "design-quality" not in text:
+        errors.append(f"{p.name}: UI role without design rules (<UI_QUALITY> in specialist-template.md)")
+    if "design-quality" in text and not (root / "specs/design-quality.md").is_file():
+        errors.append(f"{p.name}: points at missing specs/design-quality.md (run scaffold with --ui)")
 
 if mode == "A":
     agent_dirs = [".claude/agents", ".codex/agents", ".cursor/agents", ".opencode/agents",
