@@ -147,6 +147,8 @@ flowchart LR
 
 > 💡 Specialists that write code follow a "do less" ladder adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT): reuse, stdlib, platform, installed deps, one line — before writing anything new. Built into the start prompts, so it works in every harness; no plugin needed.
 
+> 💡 The same roles write a failing test first, rewrite tests that would pass on code that does nothing, and after two failed fixes stop to check the assumption behind them. Ideas from [ub-mode](https://github.com/unclebob/ub-mode), in our own wording.
+
 > 💡 Every role that builds UI works against anti-slop rules condensed from [unslop](https://github.com/heydamir/unslop) by Damir Sokolovsky ([@heydamir](https://x.com/heydamir)): a design direction taken from the product first, then a list of AI tells and what replaces them, with a check before PASS. On by default, no plugin needed. `references/design-quality.md` is under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), the rest of the repo under MIT.
 
 > 💡 For long Master sessions in Claude Code you can add [fast-jev-compaction](https://github.com/kargnas/fast-jev-compaction): it drops stale tool output on compaction instead of summarising, so paths and errors survive. Optional; it sends the transcript to the external Jev service.

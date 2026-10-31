@@ -44,7 +44,7 @@ Task ID / Owner / Status (PASS | REVIEW | BLOCKED | FAIL)
 ## Сделано
 ## Изменённые файлы
 ## Решения
-## Проверка (что запускал, результат)
+## Проверка (что запускал, результат; новый тест до правки падал — да / нет / тест невозможен)
 ## Критерии готовности (каждый: закрыт — где / не закрыт — почему)
 ## Баг (только для багов): причина — файл:строка; симптом воспроизводится? — нет/да; вердикт verified | partial | failed
 ## Проблемы
@@ -77,7 +77,7 @@ Task ID / Owner / Status (PASS | REVIEW | BLOCKED | FAIL)
 
 ## `<CODE_LADDER>` (roles that write code)
 
-Adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT). Model-neutral: works the same on any harness and vendor.
+Adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT). Model-neutral: works the same on any harness and vendor. The test and failed-fix rules follow ideas from [ub-mode](https://github.com/unclebob/ub-mode); it has no license, so keep them in our own wording.
 
 ```markdown
 ## Как писать код
@@ -91,6 +91,13 @@ Adapted from [ponytail](https://github.com/DietrichGebert/ponytail) (MIT). Model
 7. Только потом — минимум, который работает.
 Никогда не срезай: валидацию на границах доверия, обработку потери данных, безопасность, доступность, тесты из «Готово».
 Выбирай ступень сразу, не расписывай рассуждения по ступеням в ответе.
+
+Тесты (где в проекте они есть):
+- Меняешь поведение — сначала напиши тест и убедись, что он падает по ожидаемой причине. Потом минимальная правка, чтобы он прошёл.
+- Тест вызывает код так, как это делает его пользователь, и проверяет то, что тот увидит. Прошёл бы, даже если код ничего не делает, — перепиши.
+- Честный тест здесь невозможен — не пиши плохой, скажи об этом в отчёте.
+
+Две правки подряд упали на одной проверке — третью не начинай. Напиши одной фразой, из какого допущения исходили обе, и проверь его. Неверно — убери его и реши задачу заново. Верно, но не выходит — статус BLOCKED с этой фразой в отчёте.
 ```
 
 ## `<MODE_REPORTING>` by mode
